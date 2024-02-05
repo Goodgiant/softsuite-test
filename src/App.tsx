@@ -1,12 +1,11 @@
 // import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
+import Layout from './layout/Layout.tsx';
 
 function App() {
 
   return (
-    <div>
-      
-    </div>
+    <Layout />
   )
 }
 
