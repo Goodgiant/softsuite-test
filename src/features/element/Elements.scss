@@ -1,0 +1,44 @@
+@import "global-variables";
+
+$red-border: red solid 2px;
+
+#elements-outlet {
+
+    .breadcrumb-container {
+        padding: 14px 0;
+
+        .breadcrumbs {
+            font-weight: 700;
+        }
+        .activeCrumb {
+            color: $blue-color;
+        }
+    }
+
+    .main-content {
+        background-color: #fff;
+        height: 100%;
+        padding: 20px;
+
+        .title {
+            color: $blue-color;
+            font-size: 19px;
+        }
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+            padding: 16px;
+            background-color: $gray-color;
+
+            .search-filter {
+                display: flex;
+                justify-content: space-between;
+                width: 340px;
+
+
+            }
+        }
+    }
+}

@@ -1,3 +1,5 @@
+@import "global-variables";
+
 $header-height: 90px;
 $footer-height: 58px;
 $sidebar-width: 250px;
@@ -8,7 +10,7 @@ $blue-border: 2px solid blue;
 
 #layout-container {
     box-sizing: border-box;
-    background-color: #F4F6F8;
+    background-color: $gray-color;
 
     .top {
         position: absolute;
@@ -40,6 +42,7 @@ $blue-border: 2px solid blue;
             position: absolute;
             box-sizing: border-box;
             margin-left: $sidebar-width;
+            padding: 0px 40px;
             height: 100%;
             width: $main-width;
             overflow: scroll;
@@ -49,7 +52,7 @@ $blue-border: 2px solid blue;
     }
 
     .bottom {
-        background-color: #2D416F;
+        background-color: $blue-color;
         position: absolute;
         bottom: 0;
         width: 100%;

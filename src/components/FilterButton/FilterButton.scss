@@ -1,0 +1,21 @@
+@import "global-variables";
+
+#filter-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    background-color: $blue-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 14px;
+
+    @extend .borderless-outlineless;
+
+    &:hover, &:active, &:focus {
+        @extend #filter-button;
+    }
+    &:hover {
+        background-color: lighten($blue-color, 5%);
+    }
+}

@@ -1,0 +1,21 @@
+@import "global-variables";
+
+#no-data-display-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+
+    .no-data-message {
+        display: flex;
+        align-items: center;
+
+        img {
+            margin-right: 10px;
+        }
+        p {
+            color: $blue-color;
+        }
+    }
+}

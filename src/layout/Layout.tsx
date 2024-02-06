@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import "./Layout.scss";
 
 const Layout = () => {
@@ -10,11 +11,11 @@ const Layout = () => {
             </header>
             <section className="center">
                 <aside className="left">
-                    
-                </aside>
-                <main className="right">
 
-                </main>
+                </aside>
+                <div className="right">
+                    <Outlet />
+                </div>
             </section>
             <footer className="bottom">
 
