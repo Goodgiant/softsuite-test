@@ -55,22 +55,25 @@ const Elements = () => {
     ];
       
 
-    //  Action options is setup for each record row
+    //  Action options for each table row record
     const rowOptions: MenuProps["items"] = [
         {
             label: `View Element Links`,
             key: `view`,
             icon: <EyeOutlined />,
+            style: { color: "#2D416F" }
         },
         {
             label: `Edit`,
             key: `edit`,
-            icon: <EditOutlined />
+            icon: <EditOutlined />,
+            style: { color: "#2D416F" }
         },
         {
             label: `Delete`,
             key: `delete`,
-            icon: <DeleteOutlined />
+            icon: <DeleteOutlined />,
+            danger: true,
         }
     ];
     const onClickRowOption = (optionKey: ElementRowActions, rowData: AnyObject) => {
@@ -81,7 +84,7 @@ const Elements = () => {
         }
     }
 
-    // Action functions for each row option
+    // Action functions for each menu option
     const viewElementLinks = (rowData: AnyObject) => {
         console.log({ rowData })
     }
@@ -92,6 +95,7 @@ const Elements = () => {
         console.log({ rowData })
     }
 
+    /* TODO: Dynamically curate this list by mapping data fetch result keys */
     const mockColumns: TableColumnsType<AnyObject> = [
         {
           title: "Student",

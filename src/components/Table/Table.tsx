@@ -62,7 +62,7 @@ const ElementTable = (props: {data: AnyObject[], columns: TableColumnsType<AnyOb
                 <span>Showing</span>
                 <Dropdown className="pagesize-dropdown" menu={{ items: pageSizeOptions, onClick: onSelectPageSize }} trigger={['click']}>
                     <a onClick={(e) => e.preventDefault()}>
-                    <Space>
+                    <Space className="pagesize-value">
                         {pageSize}
                         <DownOutlined />
                     </Space>

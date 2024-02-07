@@ -33,7 +33,6 @@ ul.ant-pagination.ant-table-pagination.ant-table-pagination-right {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            // border: red 2px solid;
 
             span {
                 color: $blue-color;
@@ -42,15 +41,22 @@ ul.ant-pagination.ant-table-pagination.ant-table-pagination-right {
 
             .pagesize-dropdown {
                 margin: 0 15px;
-                background-color: #E2E2E2;
+                background-color: $gray-color;
                 min-width: 81px;
                 height: 100%;
                 border-radius: 6px;
                 display: flex;
-                justify-content: center;
-                align-items: center;
+                box-sizing: border-box;
+                overflow: hidden;
                 color: $blue-color;
                 font-size: 14px;
+
+                .pagesize-value {
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 0 10px;
+                }
             }
         }
     }
@@ -98,8 +104,6 @@ ul.ant-pagination.ant-table-pagination.ant-table-pagination-right {
         
     }
 }
-
-
 
 .table-wrapper {
     width: 100%;
