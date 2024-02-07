@@ -57,13 +57,7 @@ const ElementLinks = () => {
       
 
     //  Action options for each table row record
-    const rowOptions: MenuProps["items"] = [
-        {
-            label: `View Element Links`,
-            key: `view`,
-            icon: <EyeOutlined />,
-            style: { color: "#2D416F" }
-        },
+    const rowOptions = [
         {
             label: `Edit`,
             key: `edit`,
@@ -131,23 +125,21 @@ const ElementLinks = () => {
           },
         },
         {
+            title: 'Details',
+            dataIndex: 'view',
+            render: (_, rowData) => (<a className="elements-link-action-link" onClick={()=>{}}>View details</a>)
+        },
+        {
             title: 'Action',
             dataIndex: 'action',
             render: (_, rowData) => (
-                <Dropdown 
-                    className="row-option-dropdown" 
-                    menu={{ 
-                        items: rowOptions, 
-                        onClick: ({ key })=> onClickRowOption(key as ElementRowActions, rowData) 
-                    }} 
-                    trigger={['click']}
-                >
-                    <a onClick={(e) => e.preventDefault()}>
-                    <Space>
-                        <RowActionButton />
-                    </Space>
-                    </a>
-                </Dropdown>
+                <div className="element-links-action-div">
+                {
+                    rowOptions.map((option, index)=> {
+                        return <button key={index}>{option.icon}</button>
+                    })
+                }
+                </div>
             )
         },
     ];
