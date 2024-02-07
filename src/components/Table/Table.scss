@@ -125,7 +125,7 @@ ul.ant-pagination.ant-table-pagination.ant-table-pagination-right {
     height: 25px;
     padding: 4px;
     box-sizing: border-box;
-    border: $green-color solid 2px;
+    border: $green-color solid 1.5px;
     border-radius: 6px;
     background-color: transparent;
     display: flex;
@@ -136,7 +136,7 @@ ul.ant-pagination.ant-table-pagination.ant-table-pagination-right {
     .round-green-dot {
         background-color: $green-color;
         border-radius: 50%;
-        height: 1px;
-        width: 1px;
+        height: 1.5px;
+        width: 1.5px;
     }
 }

@@ -16,21 +16,22 @@ const Table = (props: {data: AnyObject[], columns: TableColumnsType<AnyObject> }
     };
 
     // Transform the headers to have custom sort icon
-    const getHeaderTitleElement =(title:string)=> {
+    const getHeaderTitleElement =(title:string, isSortable: boolean)=> {
 
         return (
             <div style={{ display: "flex", alignItems: "center" }}>
                 {title} 
-                {title.toLowerCase() !== "action" &&
+                {isSortable &&
                 <button className="sort-button">
                     <img src={sortIcon} alt="sort" style={{ marginLeft: "8px" }} />
                 </button>}
             </div>
         )
     }
+
     const formattedColumns = props.columns?.map(item=> ({
         ...item,
-        title: getHeaderTitleElement(item.title as string),
+        title: getHeaderTitleElement(item.title as string, item.sorter? true : false),
     }));
 
     // Pagination Navigation Render function
