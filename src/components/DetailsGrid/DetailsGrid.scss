@@ -1,0 +1,39 @@
+@import "global-variables";
+
+#details-grid-container {
+    box-sizing: border-box;
+    height: max-content;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
+    .grid-row-cell {
+        border: 1px solid darken($gray-color, 10%);
+        width: 50%;
+        min-width: min-content;
+        height: 58px;
+        padding-left: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        box-sizing: border-box;
+        overflow: scroll;
+
+        h4 {
+            color: lighten(#7E7E7E, 10%);
+            font-weight: 500;
+            font-size: 11px;
+            text-transform: uppercase;
+            margin-bottom: 0;
+        }
+        p {
+            color: $blue-color;
+            font-weight: 500;
+            font-size: 14px;
+            word-break: break-all;
+            margin: 0;
+        }
+    }
+}

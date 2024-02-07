@@ -1,6 +1,6 @@
 @import "global-variables";
 
-#elements-outlet {
+#element-links-outlet {
 
     .breadcrumb-container {
         padding: 14px 0;
@@ -24,6 +24,9 @@
         .title {
             color: $blue-color;
             font-size: 19px;
+        }
+        section.details {
+            margin-bottom: 100px;
         }
         section.actions {
             @extend .actions-section-container;

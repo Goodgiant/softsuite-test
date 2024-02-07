@@ -7,3 +7,23 @@ $red-border: red solid 2px;
     border: none;
     outline: none;
 }
+
+.actions-section-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    // width: fit-content;
+    justify-content: space-between;
+    padding: 16px;
+    background-color: $gray-color;
+
+    .search-filter {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        // justify-content: space-between;
+        width: 340px;
+
+
+    }
+}

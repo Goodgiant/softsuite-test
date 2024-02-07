@@ -1,4 +1,4 @@
-import { Dropdown, Pagination, Space, Table } from "antd";
+import { Dropdown, Space, Table as AntTable } from "antd";
 import type { MenuProps, PaginationProps, TableColumnsType } from 'antd';
 
 import "./Table.scss";
@@ -8,7 +8,7 @@ import { DownOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { useState } from "react";
 
 
-const ElementTable = (props: {data: AnyObject[], columns: TableColumnsType<AnyObject>, rowActions?: { [x:string]: (rowData: AnyObject) => void }[] }) => {
+const Table = (props: {data: AnyObject[], columns: TableColumnsType<AnyObject> }) => {
     const maxPageSize = props.data.length < 10? props.data.length : 10;
     const [pageSize, setPageSize] = useState(maxPageSize);
     const onSelectPageSize: MenuProps['onClick'] = ({ key }) => {
@@ -75,7 +75,7 @@ const ElementTable = (props: {data: AnyObject[], columns: TableColumnsType<AnyOb
 
     return (
         <div className="table-wrapper">
-            <Table 
+            <AntTable 
                 dataSource={props.data} 
                 columns={formattedColumns}  
                 pagination={{
@@ -88,4 +88,4 @@ const ElementTable = (props: {data: AnyObject[], columns: TableColumnsType<AnyOb
     )
 }
 
-export default ElementTable;
+export default Table;

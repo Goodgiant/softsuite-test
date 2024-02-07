@@ -7,8 +7,9 @@ import { useState } from "react";
 import NoDataDisplay from "../../components/NoDataDisplay/NoDataDisplay";
 import ElementTable from "../../components/Table/Table";
 import { AnyObject } from "antd/es/_util/type";
-import { DeleteOutlined, DownOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import RowActionButton from "../../components/Table/RowActionButton";
+import { Link } from "react-router-dom";
 
 export interface ElementType {
     key: React.Key;
@@ -58,7 +59,7 @@ const Elements = () => {
     //  Action options for each table row record
     const rowOptions: MenuProps["items"] = [
         {
-            label: `View Element Links`,
+            label: <Link to="element-links">View Element Links</Link>,
             key: `view`,
             icon: <EyeOutlined />,
             style: { color: "#2D416F" }
