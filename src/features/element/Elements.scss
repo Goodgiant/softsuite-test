@@ -9,6 +9,7 @@ $red-border: red solid 2px;
 
         .breadcrumbs {
             font-weight: 700;
+            color: #ABB3C5;
         }
         .activeCrumb {
             color: $blue-color;
@@ -19,6 +20,8 @@ $red-border: red solid 2px;
         background-color: #fff;
         height: 100%;
         padding: 20px;
+        box-sizing: border-box;
+        overflow: scroll;
 
         .title {
             color: $blue-color;
@@ -39,6 +42,9 @@ $red-border: red solid 2px;
 
 
             }
+        }
+        .data-section {
+            padding: 24px 0;
         }
     }
 }
