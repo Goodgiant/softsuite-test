@@ -134,17 +134,11 @@ ul.ant-pagination.ant-table-pagination.ant-table-pagination-right {
     border: $green-color solid 1.5px;
     border-radius: 6px;
     background-color: transparent;
+    color: $green-color;
     display: flex;
     gap: 5px;
     align-items: center;
     justify-content: space-evenly;
-
-    .round-green-dot {
-        background-color: $green-color;
-        border-radius: 50%;
-        height: 1.5px;
-        width: 1.5px;
-    }
 }
 
 a.elements-link-action-link {
