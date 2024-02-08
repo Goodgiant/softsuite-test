@@ -1,11 +1,19 @@
 $blue-color: #2D416F;
 $gray-color: #F4F6F8;
 $green-color: #4BAA79;
-$red-border: red solid 2px;
+$red-color: #E05453;
+$red-border: $red-color solid 2px;
+$page-padding: 0px 40px;
+
+.page-container {
+    max-height: 100%;
+    padding: $page-padding;
+    overflow: scroll;
+}
 
 .borderless-outlineless {
-    border: none;
-    outline: none;
+    border: none !important;
+    outline: none !important;
 }
 
 .actions-section-container {
@@ -21,8 +29,7 @@ $red-border: red solid 2px;
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
-        // justify-content: space-between;
-        width: 340px;
+        width: 344px;
 
 
     }

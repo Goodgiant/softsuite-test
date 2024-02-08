@@ -1,6 +1,7 @@
 @import "global-variables";
 
 #elements-outlet {
+    @extend .page-container;
 
     .breadcrumb-container {
         padding: 14px 0;

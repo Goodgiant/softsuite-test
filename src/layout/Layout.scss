@@ -42,10 +42,8 @@ $blue-border: 2px solid blue;
             position: absolute;
             box-sizing: border-box;
             margin-left: $sidebar-width;
-            padding: 0px 40px;
             height: 100%;
             width: $main-width;
-            overflow: scroll;
             flex: 1;
             border-top: 2px solid #e6e6e6;
         }

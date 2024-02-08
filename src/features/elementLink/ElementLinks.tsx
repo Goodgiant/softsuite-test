@@ -1,15 +1,15 @@
-import { Breadcrumb, Dropdown, MenuProps, Space, TableColumnsType } from "antd";
+import { Breadcrumb, TableColumnsType } from "antd";
 import CreateButton from "../../components/CreateButton/CreateButton";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import "./ElementLinks.scss";
-import FilterButton from "../../components/FilterButton/FilterButton";
 import { useState } from "react";
 import NoDataDisplay from "../../components/NoDataDisplay/NoDataDisplay";
 import ElementLinkTable from "../../components/Table/Table";
 import { AnyObject } from "antd/es/_util/type";
-import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
-import RowActionButton from "../../components/Table/RowActionButton";
+import { ArrowLeftOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import DetailsGrid from "../../components/DetailsGrid/DetailsGrid";
+import SideDrawer from "../../components/SideDrawer/SideDrawer";
+import { Link } from "react-router-dom";
 
 export interface ElementLinkType {
     key: React.Key;
@@ -17,14 +17,10 @@ export interface ElementLinkType {
     chinese: number;
     math: number;
     english: number;
-}
-
-type ElementRowActions = "view"|"edit"|"delete";
+};
 
 const ElementLinks = () => {
-    const [elementLinks, setElementLinks] = useState<ElementLinkType[]>([]);
-
-    const mockData: ElementLinkType[] = [
+    const [elementLinks, setElementLinks] = useState<ElementLinkType[]>([
         {
           key: '1',
           name: 'John Brown',
@@ -53,44 +49,43 @@ const ElementLinks = () => {
           math: 99,
           english: 89,
         },
-    ];
-      
+    ]);
+    const [selectedLink, setSelectedLink] = useState<ElementLinkType>();
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
-    //  Action options for each table row record
+    // Action functions for each menu option
+    const closeDetails = () => {
+        setDrawerOpen(false);
+    };
+    const viewLink = (rowData: ElementLinkType) => {
+        setDrawerOpen(true);
+        setSelectedLink(rowData);
+    };
+    const editLink = (rowData: ElementLinkType) => {
+        
+        setSelectedLink(rowData);
+    }
+    const deleteLink = (rowData: ElementLinkType) => {
+        
+        setSelectedLink(rowData);
+    }
+
+    /* TODO: Dynamically curate this list by mapping data fetch result keys */
     const rowOptions = [
         {
             label: `Edit`,
             key: `edit`,
             icon: <EditOutlined />,
-            style: { color: "#2D416F" }
+            onclick: editLink,
         },
         {
             label: `Delete`,
             key: `delete`,
             icon: <DeleteOutlined />,
-            danger: true,
+            onclick: deleteLink,
         }
     ];
-    const onClickRowOption = (optionKey: ElementRowActions, rowData: AnyObject) => {
-        switch (optionKey) {
-            case 'view': viewElementLinks(rowData); break;
-            case 'edit': editElement(rowData); break;
-            case 'delete': deleteElement(rowData); break;
-        }
-    }
 
-    // Action functions for each menu option
-    const viewElementLinks = (rowData: AnyObject) => {
-        console.log({ rowData })
-    }
-    const editElement = (rowData: AnyObject) => {
-        console.log({ rowData })
-    }
-    const deleteElement = (rowData: AnyObject) => {
-        console.log({ rowData })
-    }
-
-    /* TODO: Dynamically curate this list by mapping data fetch result keys */
     const mockColumns: TableColumnsType<AnyObject> = [
         {
           title: "Student",
@@ -127,7 +122,11 @@ const ElementLinks = () => {
         {
             title: 'Details',
             dataIndex: 'view',
-            render: (_, rowData) => (<a className="elements-link-action-link" onClick={()=>{}}>View details</a>)
+            render: (_, rowData) => (
+                <a className="elements-link-action-link" onClick={()=> viewLink(rowData as ElementLinkType)}>
+                    View details
+                </a>
+            )
         },
         {
             title: 'Action',
@@ -136,7 +135,7 @@ const ElementLinks = () => {
                 <div className="element-links-action-div">
                 {
                     rowOptions.map((option, index)=> {
-                        return <button key={index}>{option.icon}</button>
+                        return <button key={index} onClick={()=> option.onclick(rowData as ElementLinkType)}>{option.icon}</button>
                     })
                 }
                 </div>
@@ -144,13 +143,19 @@ const ElementLinks = () => {
         },
     ];
 
+
+    console.log({ selectedLink });
     return (
         <div id="element-links-outlet">
             <div className="breadcrumb-container">
                 <Breadcrumb separator=">" className="breadcrumbs" items={[{title: "Payroll Management"}, {title: "Element Setup"}, {title: "Elements"}, {title: "Element Links", className: "activeCrumb"}]} />
             </div>
             <main className="main-content">
-                
+                <Link to="/">
+                <button className="back-button">
+                    <ArrowLeftOutlined />
+                </button>
+                </Link>
                 <h1 className="title">Element Details</h1>
                 <section className="details">
                     <DetailsGrid />
@@ -166,17 +171,18 @@ const ElementLinks = () => {
                 </section>
                 <section className="data-section">
                 {
-                    elementLinks.length === 1?
+                    elementLinks.length === 0?
                     <NoDataDisplay message="There are no elements to display" />
                     : 
                     <ElementLinkTable 
-                        data={mockData} 
+                        data={elementLinks} 
                         columns={mockColumns}
                     />
                 }
                 </section>
 
             </main>
+            <SideDrawer onClose={closeDetails} open={drawerOpen} title="element link details" />
         </div>
     )
 }

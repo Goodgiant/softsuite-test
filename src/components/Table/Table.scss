@@ -157,7 +157,7 @@ a.elements-link-action-link {
     }
 }
 
-.element-links-action-div {
+div.element-links-action-div {
     display: flex;
     gap: 5px;
 
@@ -178,11 +178,11 @@ a.elements-link-action-link {
             scale: 104%;
         }
         &:last-child {
-            color: #E05453;
+            color: $red-color;
             background-color: #FDF2F2;
 
             &:hover, &:active, &:focus {
-                border-color: #E05453;
+                border-color: $red-color;
             }
         }
     }
