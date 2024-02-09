@@ -1,19 +1,16 @@
 @import "global-variables";
 
-.ant-drawer-mask {
+.ant-drawer {
     @extend .borderless-outlineless;
-    border: none;
 }
 
 .ant-drawer-content-wrapper {
     width: fit-content !important;
     min-width: 50% !important;
     float: right;
-    @extend .borderless-outlineless;
 
     .ant-drawer-content {
         padding: 32px 20px;
-        @extend .borderless-outlineless;
 
         .ant-drawer-header {
             border: none;
