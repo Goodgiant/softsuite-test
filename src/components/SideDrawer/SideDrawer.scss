@@ -7,11 +7,13 @@
 
 .ant-drawer-content-wrapper {
     width: fit-content !important;
-    max-width: 50% !important;
+    min-width: 50% !important;
     float: right;
+    @extend .borderless-outlineless;
 
     .ant-drawer-content {
         padding: 32px 20px;
+        @extend .borderless-outlineless;
 
         .ant-drawer-header {
             border: none;

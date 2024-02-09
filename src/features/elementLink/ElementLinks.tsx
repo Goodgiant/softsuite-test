@@ -10,6 +10,8 @@ import { ArrowLeftOutlined, DeleteOutlined, EditOutlined } from "@ant-design/ico
 import DetailsGrid from "../../components/DetailsGrid/DetailsGrid";
 import SideDrawer from "../../components/SideDrawer/SideDrawer";
 import { Link } from "react-router-dom";
+import SuccessModal, { SuccessModalProps } from "../../components/Modals/SuccessModal/SuccessModal";
+import DeleteConfirmationModal from "../../components/Modals/ConfirmationModal/ConfirmationModal";
 
 export interface ElementLinkType {
     key: React.Key;
@@ -52,6 +54,9 @@ const ElementLinks = () => {
     ]);
     const [selectedLink, setSelectedLink] = useState<ElementLinkType>();
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [successModalMode, setSuccessModalMode] = useState<SuccessModalProps["mode"]>("created");
 
     // Action functions for each menu option
     const closeDetails = () => {
@@ -66,7 +71,7 @@ const ElementLinks = () => {
         setSelectedLink(rowData);
     }
     const deleteLink = (rowData: ElementLinkType) => {
-        
+        setShowConfirmModal(true);
         setSelectedLink(rowData);
     }
 
@@ -180,8 +185,21 @@ const ElementLinks = () => {
                     />
                 }
                 </section>
-
             </main>
+
+            <SuccessModal 
+                open={showSuccessModal}
+                onConfirm={()=> alert("Re-fetching data...")}
+                mode={successModalMode}
+                text="Element link has been created successfully"
+            />
+            <DeleteConfirmationModal
+                open={showConfirmModal}
+                loading={false}
+                onConfirm={()=> setShowConfirmModal(false)}
+                onCancel={()=> setShowConfirmModal(false)}
+                text="Are you sure you want to delete Element link?"
+            />
             <SideDrawer onClose={closeDetails} open={drawerOpen} title="element link details" />
         </div>
     )

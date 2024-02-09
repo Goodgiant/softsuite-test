@@ -30,6 +30,12 @@ $page-padding: 0px 40px;
         flex-wrap: wrap;
         gap: 10px;
         width: 344px;
+        max-width: 100%;
+        box-sizing: border-box;
+
+        #search-container {
+            max-width: 100%;
+        }
 
 
     }
