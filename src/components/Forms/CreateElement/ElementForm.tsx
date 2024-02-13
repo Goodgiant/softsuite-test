@@ -132,6 +132,30 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
         }
     }
 
+    const filterCategories =()=> {
+        let selectedClass = lookups?.elementClassifications?.find(item=> item.id == data?.classificationId );
+        let isEarningClass = (item:any):boolean=> {
+            return item?.name.toLowerCase().includes("earning")  && !item?.name.toLowerCase().includes("deduction");
+        }
+        let isDeductionClass = (item:any):boolean=> {
+            return item?.name.toLowerCase().includes("deduction")  && !item?.name.toLowerCase().includes("earning");
+        }
+        let isOtherClass = (item:any):boolean=> {
+            return !item?.name.toLowerCase().includes("earning") && !item?.name.toLowerCase().includes("deduction");
+        }
+        const earningsCategories= lookups.elementCategories?.filter((item)=> isEarningClass(item));
+        const deductionsCategories= lookups.elementCategories?.filter((item)=> isDeductionClass(item));
+        const otherCategories= lookups.elementCategories?.filter((item)=> isOtherClass(item));
+        
+        if (selectedClass?.name.toLowerCase() === "earning"){
+            return earningsCategories;
+        }
+        else if (selectedClass?.name.toLowerCase() === "deduction"){
+            return deductionsCategories;
+        }
+        return otherCategories;
+    }
+
     // method to trigger validation and return the error message
     const validateFormData = async (formData:ElementFormStateType) => {
         const errors = await schema.validate(formData);
@@ -201,14 +225,7 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
                             placeholder="Select Element Category"
                         >
                         {
-                            lookups?.elementCategories?.map((cat, i)=> {
-
-                                let selectedClass = lookups?.elementClassifications?.find(item=> item.id == data?.classificationId );
-
-                                if (selectedClass && cat.name.includes(selectedClass?.name)) {
-                                    return <Select.Option className="select-option" key={i} value={cat.id}>{cat.name}</Select.Option>
-                                }
-                            })
+                            filterCategories()?.map((cat, i)=> <Select.Option className="select-option" key={i} value={cat.id}>{cat.name}</Select.Option>)
                         }
                         </Select>
                     </label>

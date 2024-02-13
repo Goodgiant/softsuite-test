@@ -79,6 +79,12 @@ const Elements = () => {
     /**
      *  Action functions for each menu option 
     */
+   const onClickCreate = () => {
+        dispatch(setSelectedElement(null));
+        setShowForm(true); 
+        setEditMode(false);
+   }
+
     const onClickRowOption = (optionKey: ElementRowActions, rowData: AnyObject) => {
         switch (optionKey) {
             case 'view': viewElementLinks(rowData); break;
@@ -210,7 +216,7 @@ const Elements = () => {
                         <SearchBar placeholder="Search for element" onSubmit={(value:string)=> setSearchTerm(value)} />
                         <FilterButton />
                     </div>
-                    <CreateButton text="Create Element" onClick={()=> { setShowForm(true); setEditMode(false); }} />
+                    <CreateButton text="Create Element" onClick={onClickCreate} />
                 </section>
                 <section className="data-section">
                 {

@@ -44,7 +44,7 @@ const initialState: ElementInitialStateType = {
 };
 
 const reducers = {
-    setSelectedElement: (state: any, action: PayloadAction<ElementFormStateType>) => {
+    setSelectedElement: (state: any, action: PayloadAction<ElementFormStateType | null>) => {
         return { ...state, selectedElement: action.payload };
     }
 };
