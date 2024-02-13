@@ -19,7 +19,7 @@ export interface ElementFormStateType {
     "categoryValueId"?: string,
     "reportingName"?: string,
     "processingType"?: "open" | "close",
-    "status"?: "active" | "inactive",
+    "status"?: any,
     "prorate"?: "yes" | "no",
     "effectiveStartDate"?: string,
     "effectiveEndDate"?: string,
@@ -83,6 +83,12 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
     useEffect(()=> {
         dispatch(GetLookupsThunk());
     }, [])
+    useEffect(()=> {
+        console.log({selectedElement})
+        setStep(1);
+        const formatSelection = { ...selectedElement, status: selectedElement?.status?.props?.children }
+        setData(formatSelection);
+    }, [selectedElement])
 
 
     const [data, setData] = useState<ElementFormStateType | null>(props.editMode? selectedElement : {
@@ -92,6 +98,8 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
         payFrequency: "monthly",
         selectedMonths: [],
     });
+
+    console.log({ status: data?.status})
     const [step, setStep] = useState(1);
     const isNextable = data?.name && data?.description && data?.categoryId && data?.classificationId && data?.reportingName && data?.payRunId;
     const isSubmitable = isNextable && data?.effectiveStartDate && data?.effectiveEndDate && data?.processingType && data?.payFrequency && data?.selectedMonths && data?.prorate && data?.prorate;
@@ -103,7 +111,7 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
         setData((prev)=> ({
             ...prev,
             [key]: realValue,
-        }))
+        }));
     };
 
     const handleCancel = () => {
@@ -296,8 +304,8 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
                     <label className="input-group">
                         Status
                         <div className="switch-group">
-                            <Switch className="switch-element" defaultChecked onChange={(value)=> handleInputChange({key: "status", value: value? "active":"inactive"})} />
-                            <p>{data?.status == "active"? "Active" : "Inactive"}</p>
+                            <Switch className="switch-element" defaultChecked={!props.editMode? true : data?.status.toLowerCase() === "active"? true : false } onChange={(value)=> handleInputChange({key: "status", value: value? "active":"inactive"})} />
+                            <p>{ data?.status.toLowerCase() == "active"? "Active" : "Inactive"}</p>
                         </div>
                     </label>
                 </div>

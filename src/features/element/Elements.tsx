@@ -197,7 +197,7 @@ const Elements = () => {
         },
     ];
 
-    console.log({ showSuccessModal })
+    
     return (
         <div id="elements-outlet">
             <div className="breadcrumb-container">
@@ -218,7 +218,7 @@ const Elements = () => {
                     <NoDataDisplay message="There are no elements to display" />
                     : 
                     <ElementTable 
-                        data={elements?.filter(element=> element.name?.toLowerCase().includes(searchTerm.toLowerCase()))} 
+                        data={elements.filter(element=> element.name?.toLowerCase().includes(searchTerm.toLowerCase()))} 
                         columns={columns}
                         dataSize={elements.length}
                     />

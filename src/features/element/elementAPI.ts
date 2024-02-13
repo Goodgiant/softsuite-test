@@ -26,7 +26,7 @@ export const createNewElement = async (data: ElementFormStateType) => {
 export const updateElement = async (data: ElementFormStateType) => {
 
     try {
-        const result = await api.put("elements", { ...data, modifiedBy: "Victor Izu-Akiti"});
+        const result = await api.put("elements/" + data.id, { ...data, modifiedBy: "Victor Izu-Akiti"});
         return result.data;
     } catch (err) {
         console.log({err})

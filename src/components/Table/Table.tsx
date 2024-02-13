@@ -1,4 +1,4 @@
-import { Dropdown, Space, Table as AntTable } from "antd";
+import { Dropdown, Space, Table as AntTable, Tag } from "antd";
 import type { MenuProps, PaginationProps, TableColumnsType } from 'antd';
 
 import "./Table.scss";
@@ -9,12 +9,13 @@ import { useEffect, useState } from "react";
 
 
 const Table = (props: {data: AnyObject[], columns: TableColumnsType<AnyObject>, dataSize: number }) => {
-    
+
     const [pageSize, setPageSize] = useState(0);
     useEffect(()=> {
         const maxPageSize = props.dataSize && props.dataSize < 10? props.dataSize : 10;
-        setPageSize(maxPageSize)
+        setPageSize(maxPageSize);
     }, [props.dataSize])
+
     const onSelectPageSize: MenuProps['onClick'] = ({ key }) => {
         setPageSize(Number(key));
     };
@@ -78,10 +79,16 @@ const Table = (props: {data: AnyObject[], columns: TableColumnsType<AnyObject>, 
         );
     };
 
+    const formatData = props.data?.map((item)=> ({
+        ...item, 
+        status: <Tag color={item.status?.toLowerCase()==="active"? "green": "red"}>{item.status}</Tag>
+    }));
+        
+
     return (
         <div className="table-wrapper">
             <AntTable 
-                dataSource={props.data} 
+                dataSource={formatData} 
                 columns={formattedColumns}  
                 pagination={{
                     pageSize,
