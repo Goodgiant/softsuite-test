@@ -1,8 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import elementSlice from '../features/element/elementSlice';
+import generalSlice from './generalSlice';
 
 export const store = configureStore({
   reducer: {
+    elements: elementSlice,
+    general: generalSlice,
   },
 })
 

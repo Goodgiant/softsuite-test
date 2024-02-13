@@ -5,12 +5,16 @@ import "./Table.scss";
 import sortIcon from "../../assets/sort.svg";
 import { AnyObject } from "antd/es/_util/type";
 import { DownOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
-const Table = (props: {data: AnyObject[], columns: TableColumnsType<AnyObject> }) => {
-    const maxPageSize = props.data.length < 10? props.data.length : 10;
-    const [pageSize, setPageSize] = useState(maxPageSize);
+const Table = (props: {data: AnyObject[], columns: TableColumnsType<AnyObject>, dataSize: number }) => {
+    
+    const [pageSize, setPageSize] = useState(0);
+    useEffect(()=> {
+        const maxPageSize = props.dataSize && props.dataSize < 10? props.dataSize : 10;
+        setPageSize(maxPageSize)
+    }, [props.dataSize])
     const onSelectPageSize: MenuProps['onClick'] = ({ key }) => {
         setPageSize(Number(key));
     };
@@ -51,7 +55,7 @@ const Table = (props: {data: AnyObject[], columns: TableColumnsType<AnyObject> }
     // Page size render function
     const pageSizeDisplay = (total:number) => {
         const pageSizeOptions: MenuProps["items"] = [];
-        for (let i = 0; i < maxPageSize; i++) {
+        for (let i = 0; i < pageSize; i++) {
             pageSizeOptions.push({
                 label: `${i+1}`,
                 key: `${i+1}`

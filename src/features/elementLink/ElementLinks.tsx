@@ -58,8 +58,30 @@ const ElementLinks = () => {
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [successModalMode, setSuccessModalMode] = useState<SuccessModalProps["mode"]>("created");
 
-    // Action functions for each menu option
-    const closeDetails = () => {
+    /** 
+     * DATA MANAGEMENT: Dispatch functions for CRUD operations
+    */
+    const createElementLink = async (data: any) => {
+        setShowSuccessModal(false);
+    }
+
+    const readElementLinks = async (elementID?: any) => {
+        setShowSuccessModal(false);
+    }
+    
+    const updateElementLinks = async (data: any) => {
+        setShowSuccessModal(false);
+    }
+
+    const deleteElementLinks = async (linkID: any) => {
+        setShowSuccessModal(false);
+    }
+
+    /**
+     *  Action functions for each menu option 
+    */
+   
+    const closeDetailsDrawer = () => {
         setDrawerOpen(false);
     };
     const viewLink = (rowData: ElementLinkType) => {
@@ -172,7 +194,7 @@ const ElementLinks = () => {
                     <div className="search-filter">
                         <SearchBar placeholder="Search for element links" onSubmit={(value:string)=> console.log({value})} />
                     </div>
-                    <CreateButton text="Create Element Link" onClick={()=> null} />
+                    <CreateButton text="Create Element Link" onClick={()=> { setShowSuccessModal(true); }} />
                 </section>
                 <section className="data-section">
                 {
@@ -189,7 +211,7 @@ const ElementLinks = () => {
 
             <SuccessModal 
                 open={showSuccessModal}
-                onConfirm={()=> alert("Re-fetching data...")}
+                onConfirm={readElementLinks}
                 mode={successModalMode}
                 text="Element link has been created successfully"
             />
@@ -200,7 +222,7 @@ const ElementLinks = () => {
                 onCancel={()=> setShowConfirmModal(false)}
                 text="Are you sure you want to delete Element link?"
             />
-            <SideDrawer onClose={closeDetails} open={drawerOpen} title="element link details" />
+            <SideDrawer onClose={closeDetailsDrawer} open={drawerOpen} title="element link details" />
         </div>
     )
 }

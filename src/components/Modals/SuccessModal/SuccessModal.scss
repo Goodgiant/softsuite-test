@@ -26,11 +26,15 @@
 
     .ant-modal-footer {
         display: flex;
-        justify-content: center;
     
+        &:nth-child(2){
+            display: flex;
+            justify-content: center;
+        }
         .success-modal-confirm {
             width: 354px;
             height: 56px;
+            margin: 0 !important;
             background-color: $green-color;
     
             &:hover {

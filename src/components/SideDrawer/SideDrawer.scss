@@ -2,52 +2,52 @@
 
 .ant-drawer {
     @extend .borderless-outlineless;
-}
-
-.ant-drawer-content-wrapper {
-    width: fit-content !important;
-    min-width: 50% !important;
-    float: right;
-
-    .ant-drawer-content {
-        padding: 32px 20px;
-
-        .ant-drawer-header {
-            border: none;
-
-            .title-container {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                height: 100px;
-            
-                button {
-                    background-color: transparent;
-                    color: $red-color;
-                    border: $red-border;
-                    width: 24px;
-                    height: 24px;
-                    box-sizing: border-box;
+    
+    .ant-drawer-content-wrapper {
+        width: fit-content !important;
+        min-width: 50% !important;
+        float: right;
+    
+        .ant-drawer-content {
+            padding: 32px 20px;
+    
+            .ant-drawer-header {
+                border: none;
+    
+                .title-container {
                     display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    font-size: 7px;
-
-                    &:focus, &:active, &:hover {
-                        outline: solid $red-color;
-                        border: none;
-                        font-size: 10px;
-                        font-weight: bold;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    height: 100px;
+                
+                    button {
+                        background-color: transparent;
+                        color: $red-color;
+                        border: $red-border;
+                        width: 24px;
+                        height: 24px;
+                        box-sizing: border-box;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-size: 7px;
+    
+                        &:focus, &:active, &:hover {
+                            outline: solid $red-color;
+                            border: none;
+                            font-size: 10px;
+                            font-weight: bold;
+                        }
                     }
-                }
-            
-                p {
-                    font-size: 24px;
-                    font-weight: 600;
-                    line-height: 30px;
-                    color: $blue-color;
-                    text-transform: uppercase;
-                    margin: 0;
+                
+                    p {
+                        font-size: 24px;
+                        font-weight: 600;
+                        line-height: 30px;
+                        color: $blue-color;
+                        text-transform: uppercase;
+                        margin: 0;
+                    }
                 }
             }
         }

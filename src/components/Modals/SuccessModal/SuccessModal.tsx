@@ -6,7 +6,7 @@ import successDeleteIcon from "../../../assets/success-delete-icon.svg";
 export interface SuccessModalProps {
     mode: 'created' | 'updated' | 'deleted';
     open: boolean;
-    text?: string;
+    pretext?: string;
     loading?: boolean;
     onConfirm?: () => void;
     onCancel?: () => void;
@@ -29,6 +29,7 @@ const SuccessModal = (props: SuccessModalProps) => {
             onOk={props.onConfirm}
             onCancel={props.onCancel}
             confirmLoading={props.loading}
+            centered
             closable={false}
             className="success-modal-wrapper"
             cancelButtonProps={{ style: { display: 'none' }}}
@@ -40,7 +41,7 @@ const SuccessModal = (props: SuccessModalProps) => {
             <div className="modal-icon-container">
                 <img src={getModeIcon(props.mode)} alt="modal icon" />
             </div>
-            <p className="modal-text">{props.text || `${props.mode.toUpperCase()} SUCCESSFULLY`}</p>
+            <p className="modal-text">{`${props.pretext} has been ${props.mode} sucessfully`}</p>
         </Modal>
     )
 }

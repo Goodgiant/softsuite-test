@@ -18,6 +18,7 @@ const DeleteConfirmationModal = (props: ConfirmationModalProps) => {
             open={props.open}
             onOk={props.onConfirm}
             onCancel={props.onCancel}
+            centered
             confirmLoading={props.loading}
             closable={false}
             className="success-modal-wrapper"

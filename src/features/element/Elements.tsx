@@ -3,60 +3,108 @@ import CreateButton from "../../components/CreateButton/CreateButton";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import "./Elements.scss";
 import FilterButton from "../../components/FilterButton/FilterButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NoDataDisplay from "../../components/NoDataDisplay/NoDataDisplay";
 import ElementTable from "../../components/Table/Table";
 import { AnyObject } from "antd/es/_util/type";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import RowActionButton from "../../components/Table/RowActionButton";
 import { Link } from "react-router-dom";
-
-export interface ElementType {
-    key: React.Key;
-    name: string;
-    chinese: number;
-    math: number;
-    english: number;
-}
+import SuccessModal, { SuccessModalProps } from "../../components/Modals/SuccessModal/SuccessModal";
+import ElementForm, { ElementFormStateType } from "../../components/Forms/CreateElement/ElementForm";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { CreateElementThunk, DeleteElementThunk, GetElementsThunk, UpdateElementThunk, setSelectedElement } from "./elementSlice";
+import DeleteConfirmationModal from "../../components/Modals/ConfirmationModal/ConfirmationModal";
 
 type ElementRowActions = "view"|"edit"|"delete";
 
 const Elements = () => {
-    const [elements, setElements] = useState<ElementType[]>([]);
+    const dispatch = useAppDispatch();
+    const { loading, elements } = useAppSelector(state=> state.elements);
+    useEffect(()=> {
+        readElement();
+    }, []);
 
-    const mockData: ElementType[] = [
-        {
-          key: '1',
-          name: 'John Brown',
-          chinese: 98,
-          math: 60,
-          english: 70,
-        },
-        {
-          key: '2',
-          name: 'Jim Green',
-          chinese: 98,
-          math: 66,
-          english: 89,
-        },
-        {
-          key: '3',
-          name: 'Joe Black',
-          chinese: 98,
-          math: 90,
-          english: 70,
-        },
-        {
-          key: '4',
-          name: 'Jim Red',
-          chinese: 88,
-          math: 99,
-          english: 89,
-        },
-    ];
+    const [searchTerm, setSearchTerm] = useState("");
+
+    const [showForm, setShowForm] = useState(false);
+    const [editMode, setEditMode] = useState<boolean>(false);
+
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [successModalMode, setSuccessModalMode] = useState<SuccessModalProps["mode"]>("created");
+    
+
+    /** 
+     * DATA MANAGEMENT: Dispatch functions for CRUD operations
+    */
+    const createElement = async (data: ElementFormStateType) => {
+        dispatch(CreateElementThunk(data))
+        .then(({payload})=> {
+            if (payload) {
+                setSuccessModalMode("created");
+                setShowSuccessModal(true);
+            }
+        })
+    }
+
+    const readElement = async () => {
+        const { payload } =  await dispatch(GetElementsThunk());
+        if (payload) {
+            setShowSuccessModal(false);
+            setShowForm(false);
+        }
+    }
+    
+    const updateElement = async (data: ElementFormStateType) => {
+        const { payload } = await dispatch(UpdateElementThunk(data));
+
+        if (payload) {
+            setSuccessModalMode("updated");
+            setShowSuccessModal(true);
+        }
+    }
+
+    const deleteElement = async () => {
+        
+        const { payload } = await dispatch(DeleteElementThunk());
+        if (payload) {
+            setShowConfirmModal(false);
+            setSuccessModalMode("deleted");
+            setShowSuccessModal(true);
+        }
+    }
       
 
-    //  Action options for each table row record
+    /**
+     *  Action functions for each menu option 
+    */
+    const onClickRowOption = (optionKey: ElementRowActions, rowData: AnyObject) => {
+        switch (optionKey) {
+            case 'view': viewElementLinks(rowData); break;
+            case 'edit': onClickEdit(rowData); break;
+            case 'delete': onClickDelete(rowData); break;
+        }
+    }
+
+    const viewElementLinks = (rowData: ElementFormStateType) => {
+        console.log({ rowData })
+        dispatch(setSelectedElement(rowData));
+    }
+
+    const onClickEdit = (rowData: ElementFormStateType) => {
+        console.log({ rowData })
+        dispatch(setSelectedElement(rowData))
+        setEditMode(true);
+        setShowForm(true);
+    }
+
+    const onClickDelete = (rowData: ElementFormStateType) => {
+        console.log({ rowData })
+        dispatch(setSelectedElement(rowData));
+        setShowConfirmModal(true);
+    }
+
     const rowOptions: MenuProps["items"] = [
         {
             label: <Link to="element-links">View Element Links</Link>,
@@ -77,29 +125,10 @@ const Elements = () => {
             danger: true,
         }
     ];
-    const onClickRowOption = (optionKey: ElementRowActions, rowData: AnyObject) => {
-        switch (optionKey) {
-            case 'view': viewElementLinks(rowData); break;
-            case 'edit': editElement(rowData); break;
-            case 'delete': deleteElement(rowData); break;
-        }
-    }
 
-    // Action functions for each menu option
-    const viewElementLinks = (rowData: AnyObject) => {
-        console.log({ rowData })
-    }
-    const editElement = (rowData: AnyObject) => {
-        console.log({ rowData })
-    }
-    const deleteElement = (rowData: AnyObject) => {
-        console.log({ rowData })
-    }
-
-    /* TODO: Dynamically curate this list by mapping data fetch result keys */
-    const mockColumns: TableColumnsType<AnyObject> = [
+    const columns: TableColumnsType<AnyObject> = [
         {
-          title: "Student",
+          title: "Name",
           dataIndex: 'name',
           sorter: {
             compare: (a, b) => a.name.localeCompare(b.name),
@@ -107,28 +136,44 @@ const Elements = () => {
           },
         },
         {
-          title: 'Chinese Score',
-          dataIndex: 'chinese',
+          title: 'Element Category',
+          dataIndex: 'categoryValueId',
           sorter: {
-            compare: (a, b) => a.chinese - b.chinese,
+            compare: (a, b) => a.categoryValueId.localeCompare(b.categoryValueId),
             multiple: 3,
           },
         },
         {
-          title: 'Math Score',
-          dataIndex: 'math',
+          title: 'Element Classification',
+          dataIndex: 'classificationValueId',
           sorter: {
-            compare: (a, b) => a.math - b.math,
+            compare: (a, b) => a.classificationValueId.localeCompare(b.classificationValueId),
             multiple: 2,
           },
         },
         {
-          title: 'English Score',
-          dataIndex: 'english',
+          title: 'Status',
+          dataIndex: 'status',
           sorter: {
-            compare: (a, b) => a.english - b.english,
+            compare: (a, b) => a.status.localeCompare(b.status),
             multiple: 1,
           },
+        },
+        {
+            title: 'Date & Time Modified',
+            dataIndex: 'createdAt',
+            sorter: {
+              compare: (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+              multiple: 1,
+            },
+        },
+        {
+            title: 'ModifiedBy',
+            dataIndex: 'modifiedBy',
+            sorter: {
+              compare: (a, b) => a.modifiedBy.localeCompare(b.modifiedBy),
+              multiple: 5,
+            },
         },
         {
             title: 'Action',
@@ -152,6 +197,7 @@ const Elements = () => {
         },
     ];
 
+    console.log({ showSuccessModal })
     return (
         <div id="elements-outlet">
             <div className="breadcrumb-container">
@@ -161,10 +207,10 @@ const Elements = () => {
                 <h1 className="title">Elements</h1>
                 <section className="actions">
                     <div className="search-filter">
-                        <SearchBar placeholder="Search for element" onSubmit={(value:string)=> console.log({value})} />
+                        <SearchBar placeholder="Search for element" onSubmit={(value:string)=> setSearchTerm(value)} />
                         <FilterButton />
                     </div>
-                    <CreateButton text="Create Element" onClick={()=> null} />
+                    <CreateButton text="Create Element" onClick={()=> { setShowForm(true); setEditMode(false); }} />
                 </section>
                 <section className="data-section">
                 {
@@ -172,13 +218,37 @@ const Elements = () => {
                     <NoDataDisplay message="There are no elements to display" />
                     : 
                     <ElementTable 
-                        data={mockData} 
-                        columns={mockColumns}
+                        data={elements?.filter(element=> element.name?.toLowerCase().includes(searchTerm.toLowerCase()))} 
+                        columns={columns}
+                        dataSize={elements.length}
                     />
                 }
                 </section>
 
             </main>
+
+            <ElementForm 
+                showForm={showForm}
+                cancelShow={()=> setShowForm(false)}
+                handleSubmit={editMode? updateElement : createElement}
+                editMode={editMode}
+            />
+
+            <DeleteConfirmationModal 
+                open={showConfirmModal} 
+                onConfirm={deleteElement} 
+                onCancel={()=> setShowConfirmModal(false)}
+                text= "Are you sure you want to delete this Element?"
+                loading={loading}
+            />
+
+            <SuccessModal 
+                mode={successModalMode}
+                open={showSuccessModal}
+                onCancel={readElement}
+                onConfirm={readElement}
+                pretext="Element"
+            />
         </div>
     )
 }
