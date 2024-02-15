@@ -1,6 +1,4 @@
-import { ReactComponentElement } from "react";
 import "./DetailsGrid.scss";
-import { AnyObject } from "yup";
 
 export interface DetailUnitType {
     title: string;

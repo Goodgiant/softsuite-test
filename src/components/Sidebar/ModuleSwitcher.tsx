@@ -1,7 +1,5 @@
 import "./Sidebar.scss";
 import switcherIcon from "../../assets/table_switch-icon.svg";
-import carretDown from "../../assets/carret-down.svg";
-import { Select } from "antd";
 
 export const ModuleSwitcher = (props: { title:string, value: string, icon: any, alt?: boolean}) => {
 

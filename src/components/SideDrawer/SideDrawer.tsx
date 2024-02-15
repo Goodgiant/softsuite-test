@@ -2,7 +2,6 @@ import { Drawer } from "antd";
 import "./SideDrawer.scss";
 import { CloseOutlined } from "@ant-design/icons";
 import DetailsGrid from "../DetailsGrid/DetailsGrid";
-import { AnyObject } from "yup";
 import { DetailUnitType } from "../DetailsGrid/GridRowCell";
 
 

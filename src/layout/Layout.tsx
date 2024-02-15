@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import "./Layout.scss";
-import { Breadcrumb, Layout as LayoutComponenet, Menu, MenuProps, theme } from 'antd';
-import { AppstoreFilled, LaptopOutlined, NotificationOutlined, SettingFilled, SettingOutlined, UserOutlined } from "@ant-design/icons";
+import { Layout as LayoutComponenet, Menu, MenuProps } from 'antd';
+import { AppstoreFilled, SettingFilled } from "@ant-design/icons";
 import React, { useState } from "react";
 import Sider from "antd/es/layout/Sider";
 import companyLogo from "../assets/company-logo.svg";
@@ -35,21 +35,11 @@ const items: MenuItem[] = [
     getItem('Settings', 'sub4', <SettingFilled />, [
       getItem('Elements', '9'),
     ]),
-];// submenu keys of first level
-const rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
+];
 
 
 const Layout = () => {
     const [openKeys, setOpenKeys] = useState(['sub4']);
-
-    // const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
-    //     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
-    //     if (latestOpenKey && rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
-    //     setOpenKeys(keys);
-    //     } else {
-    //     setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
-    //     }
-    // };
 
     return (
         <div id="layout-container">
