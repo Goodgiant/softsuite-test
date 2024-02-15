@@ -11,7 +11,7 @@ export interface ElementLinkFormStateType {
     "id"?: string,
     "name"?: string,
     "elementId"?: number,
-    "suborganizationId"?: number,
+    "suborganizationId"?: string,
     "suborganizationValueId"?: string,
     "locationId"?: string,
     "locationValueId"?: string,
@@ -64,7 +64,10 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
     
     useEffect(()=> {
         setStep(1);
-        props.editMode && setData(selectedElementLink);
+        if (props.editMode) {
+            setData(selectedElementLink);
+            selectedElementLink?.suborganizationId && dispatch(GetDepartmentsThunk(selectedElementLink?.suborganizationId));
+        }
     }, [selectedElementLink])
 
 

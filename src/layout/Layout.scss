@@ -2,7 +2,7 @@
 
 $header-height: 90px;
 $footer-height: 58px;
-$sidebar-width: 250px;
+$sidebar-width: 302px;
 $main-width: calc(100vw - $sidebar-width);
 $red-border: 2px solid red;
 $blue-border: 2px solid blue;
@@ -35,17 +35,27 @@ $blue-border: 2px solid blue;
             box-sizing: border-box;
             height: 100%;
             width: $sidebar-width;
+            padding: 0 10px;
             overflow: scroll;
 
             .ant-menu-submenu-title {
-                width: 240px;
-                height: 57px;
-                // border: $red-border;
+                width: 270px;
+                height: 40px;
+                background-color: transparent;
 
+                &:hover, &:active, &:focus {
+                    @extend .ant-menu-submenu-title;
+                }
 
             }
 
-            .ant-menu-submenu-selected {
+            .ant-menu-submenu {
+                margin-bottom: 24px;
+                span {
+                    color: $gray-text;
+                }
+            }
+            .ant-menu-submenu-open {
                 // @extend .ant-menu-submenu-title;
                 background-color: $green-color;
                 span {
@@ -67,19 +77,39 @@ $blue-border: 2px solid blue;
                 background-color: #fff;
             }
 
+            
+
+            .ant-menu-item {
+                @extend .ant-menu-submenu;
+                span {
+                    color: $gray-text !important;
+                }
+
+                .ant-menu-title-content {
+                    color: $gray-text;
+                }
+            }
+            .ant-menu-item-selected {
+                background-color: transparent !important;
+            }
+
             .ant-menu-item-only-child {
-                background-color: lighten($green-color, 40%);
+                background-color: #F3FFF1;
+                width: 215px;
+                margin-top: 14px;
+                padding: 14px !important;
+                display: flex;
+                justify-content: flex-start !important;
                 span {
                     color: $blue-color !important;
+                    text-align: left;
                 }
 
                 .ant-menu-title-content {
                     color: $blue-color;
+                    font-size: 14px;
+                    font-weight: 600;
                 }
-            }
-
-            .ant-menu-item {
-                @extend .ant-menu-submenu-title;
             }
         }
 

@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import Sider from "antd/es/layout/Sider";
 import companyLogo from "../assets/company-logo.svg";
 import switcherIcon from "../assets/table_switch-icon.svg";
+import { ModuleSwitcher } from "../components/Sidebar/ModuleSwitcher";
 
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -26,10 +27,7 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-    getItem('Switch Module', 'sub1', <img src={switcherIcon} />, [
-      getItem('Payroll Management', '1'),
-    ]),
-    getItem('Navigation Two', 'sub2', <AppstoreFilled />),
+    getItem('Dashboard', 'sub2', <AppstoreFilled />),
     getItem('Settings', 'sub4', <SettingFilled />, [
       getItem('Elements', '9'),
     ]),
@@ -58,6 +56,7 @@ const Layout = () => {
                 <aside className="left">
                 <LayoutComponenet>
                     <Sider style={{ background: "transparent" }} width={"100%"}>
+                        <ModuleSwitcher />
                         <Menu
                             mode="inline"
                             defaultSelectedKeys={['sub4']}
@@ -65,7 +64,7 @@ const Layout = () => {
                             style={{ height: '100%' }}
                             items={items}
                             openKeys={openKeys}
-                            // onOpenChange={onOpenChange}
+                            onOpenChange={(key)=> setOpenKeys([...key])}
                         />
                     </Sider>
                 </LayoutComponenet>
