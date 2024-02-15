@@ -95,19 +95,23 @@ const Elements = () => {
 
     const viewElementLinks = (rowData: ElementFormStateType) => {
         console.log({ rowData })
-        dispatch(setSelectedElement(rowData));
+        const formatData = { ...rowData, status: rowData.status?.props.children };
+        console.log({ formatData })
+        dispatch(setSelectedElement(formatData));
     }
 
     const onClickEdit = (rowData: ElementFormStateType) => {
         console.log({ rowData })
-        dispatch(setSelectedElement(rowData))
+        const formatData = { ...rowData, status: rowData.status?.props.children };
+        dispatch(setSelectedElement(formatData));
         setEditMode(true);
         setShowForm(true);
     }
 
     const onClickDelete = (rowData: ElementFormStateType) => {
         console.log({ rowData })
-        dispatch(setSelectedElement(rowData));
+        const formatData = { ...rowData, status: rowData.status?.props.children };
+        dispatch(setSelectedElement(formatData));
         setShowConfirmModal(true);
     }
 

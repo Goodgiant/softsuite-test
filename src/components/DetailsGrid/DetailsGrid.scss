@@ -28,10 +28,14 @@
             text-transform: uppercase;
             margin-bottom: 0;
         }
+        span {
+            display: flex;
+        }
         p {
             color: $blue-color;
             font-weight: 500;
             font-size: 14px;
+            text-transform: capitalize;
             word-break: break-all;
             margin: 0;
         }

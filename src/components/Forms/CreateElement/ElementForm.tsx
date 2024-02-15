@@ -5,7 +5,7 @@ import "./ElementForm.scss";
 import { DatePicker, Input, Modal, Radio, Select, Steps, Switch } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
-import { GetLookupsThunk } from "../../../redux/generalSlice";
+import { GetElementLookupsThunk } from "../../../redux/generalSlice";
 
 export interface ElementFormStateType {
     "id"?: string,
@@ -79,15 +79,13 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
     const dispatch = useAppDispatch();
     
     const { selectedElement, loading } = useAppSelector(state=> state.elements);
-    const { lookups } = useAppSelector(state=> state.general);
+    const { elementLookups } = useAppSelector(state=> state.general);
     useEffect(()=> {
-        dispatch(GetLookupsThunk());
+        dispatch(GetElementLookupsThunk());
     }, [])
     useEffect(()=> {
-        console.log({selectedElement})
         setStep(1);
-        const formatSelection = { ...selectedElement, status: selectedElement?.status?.props?.children }
-        setData(formatSelection);
+        setData(selectedElement);
     }, [selectedElement])
 
 
@@ -99,7 +97,6 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
         selectedMonths: [],
     });
 
-    console.log({ status: data?.status})
     const [step, setStep] = useState(1);
     const isNextable = data?.name && data?.description && data?.categoryId && data?.classificationId && data?.reportingName && data?.payRunId;
     const isSubmitable = isNextable && data?.effectiveStartDate && data?.effectiveEndDate && data?.processingType && data?.payFrequency && data?.selectedMonths && data?.prorate && data?.prorate;
@@ -133,7 +130,7 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
     }
 
     const filterCategories =()=> {
-        let selectedClass = lookups?.elementClassifications?.find(item=> item.id == data?.classificationId );
+        let selectedClass = elementLookups?.elementClassifications?.find(item=> item.id == data?.classificationId );
         let isEarningClass = (item:any):boolean=> {
             return item?.name.toLowerCase().includes("earning")  && !item?.name.toLowerCase().includes("deduction");
         }
@@ -143,9 +140,9 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
         let isOtherClass = (item:any):boolean=> {
             return !item?.name.toLowerCase().includes("earning") && !item?.name.toLowerCase().includes("deduction");
         }
-        const earningsCategories= lookups.elementCategories?.filter((item)=> isEarningClass(item));
-        const deductionsCategories= lookups.elementCategories?.filter((item)=> isDeductionClass(item));
-        const otherCategories= lookups.elementCategories?.filter((item)=> isOtherClass(item));
+        const earningsCategories= elementLookups.elementCategories?.filter((item)=> isEarningClass(item));
+        const deductionsCategories= elementLookups.elementCategories?.filter((item)=> isDeductionClass(item));
+        const otherCategories= elementLookups.elementCategories?.filter((item)=> isOtherClass(item));
         
         if (selectedClass?.name.toLowerCase() === "earning"){
             return earningsCategories;
@@ -194,7 +191,7 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
                                 handleInputChange({key: "classificationId", value});
                                 handleInputChange({
                                     key: "classificationValueId", 
-                                    value: lookups.elementClassifications?.find(item => item.id === value)?.name
+                                    value: elementLookups.elementClassifications?.find(item => item.id === value)?.name
                                 });
                             } } 
                             value={data?.classificationId} 
@@ -202,7 +199,7 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
                             placeholder="Select Classification"
                         >
                         {
-                            lookups?.elementClassifications?.map((clas, i)=> (
+                            elementLookups?.elementClassifications?.map((clas, i)=> (
                                 <Select.Option className="select-option" key={i} value={clas.id}>{clas.name}</Select.Option>
                             ))
                         }
@@ -217,7 +214,7 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
                                 handleInputChange({key: "categoryId", value});
                                 handleInputChange({
                                     key: "categoryValueId", 
-                                    value: lookups.elementCategories?.find(item => item.id === value)?.name
+                                    value: elementLookups.elementCategories?.find(item => item.id === value)?.name
                                 });
                             } }
                             value={data?.categoryId} 
@@ -236,7 +233,7 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
                                 handleInputChange({key: "payRunId", value});
                                 handleInputChange({
                                     key: "payRunValueId", 
-                                    value: lookups.payRuns?.find(payRun => payRun.id === value)?.name
+                                    value: elementLookups.payRuns?.find(payRun => payRun.id === value)?.name
                                 });
                             }} 
                             value={data?.payRunId} 
@@ -244,7 +241,7 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
                             placeholder="Select Payrun"
                         >
                         {
-                            lookups?.payRuns?.map((pr, i)=> (
+                            elementLookups?.payRuns?.map((pr, i)=> (
                                 <Select.Option className="select-option" key={i} value={pr.id}>{pr.name}</Select.Option>
                             ))
                         }
@@ -321,8 +318,8 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
                     <label className="input-group">
                         Status
                         <div className="switch-group">
-                            <Switch className="switch-element" defaultChecked={!props.editMode? true : data?.status.toLowerCase() === "active"? true : false } onChange={(value)=> handleInputChange({key: "status", value: value? "active":"inactive"})} />
-                            <p>{ data?.status.toLowerCase() == "active"? "Active" : "Inactive"}</p>
+                            <Switch className="switch-element" defaultChecked={!props.editMode? true : data?.status?.toLowerCase() === "active"? true : false } onChange={(value)=> handleInputChange({key: "status", value: value? "active":"inactive"})} />
+                            <p>{ data?.status?.toLowerCase() == "active"? "Active" : "Inactive"}</p>
                         </div>
                     </label>
                 </div>
@@ -352,7 +349,7 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
             confirmLoading={loading}
             onOk={handleConfirm}
             cancelText={step===1? "Cancel" : "Back"}
-            okText={step!==totalSteps? "Next" : "Create New Element"}
+            okText={step!==totalSteps? "Next" : `${props.editMode? "Update" : "Create"} New Element`}
         >
             <div className="form-modal-content-wrapper">
 

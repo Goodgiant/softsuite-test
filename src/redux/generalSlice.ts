@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AnyObject } from "yup";
-import { getDepartments, getLookups, getSuborganizations } from "./generalAPIs";
+import { getCategories, getDepartments, getElementLinkAdditionalLookups, getElementLookups, getGradeSteps, getGrades, getJobTitles, getLocations, getSuborganizations, getTypes, getUnions } from "./generalAPIs";
 
 type LookupObject = {
     "id": string,
@@ -20,15 +20,19 @@ interface GeneralInitialStateType  {
     grades: AnyObject[] | [];
     gradeSteps: AnyObject[] | [];
 
-    lookups: {
+    elementLookups: {
         elementCategories?: LookupObject[]
         elementClassifications?: LookupObject[]
+        payRuns?: LookupObject[]
+    };
+    linkLookups: {
         employeeCategories?: LookupObject[]
         employeeTypes?: LookupObject[]
-        payRuns?: LookupObject[]
         jobTitles?: LookupObject[]
         locations?: LookupObject[]
         unions?: LookupObject[]
+    };
+    additionalLookups: {
         housings?: LookupObject[]
         wardrobes?: LookupObject[]
         securities?: LookupObject[]
@@ -36,34 +40,64 @@ interface GeneralInitialStateType  {
 }
 
 
- export const GetLookupsThunk = createAsyncThunk("general/lookups", async ()=> {
-    const lookups = await getLookups();
-    console.log({ lookups });
+export const GetElementLookupsThunk = createAsyncThunk("general/element_lookups", async ()=> {
+    const lookups = await getElementLookups();
+    return lookups;
+});
+// export const GetElementLinkLookupsThunk = createAsyncThunk("general/link_lookups", async ()=> {
+//     const lookups = [
+//         await getJobTitles(), 
+//         await getJobTitles(), 
+//         await getJobTitles(), 
+//         await getJobTitles(), 
+//         await getJobTitles(), 
+//     ];
+//     return lookups;
+// });
+export const GetJobTitlesAndLocations = createAsyncThunk("general/title_location", async ()=> {
+    const lookups = {
+        jobTitles: await getJobTitles(), 
+        locations: await getLocations(),
+    };
+    return lookups;
+});
+export const GetCategoriesAndTypes = createAsyncThunk("general/category_type", async ()=> {
+    const lookups = {
+        employeeCategories: await getCategories(), 
+        employeeTypes: await getTypes(),
+    };
+    return lookups;
+});
+export const GetUnions = createAsyncThunk("general/union", async ()=> {
+    const lookups = {
+        unions: await getUnions(),
+    };
     return lookups;
 });
 
- export const GetSuborganizatonsThunk = createAsyncThunk("general/suborganizations", async ()=> {
-    const suborganizations = await getSuborganizations();
-    console.log({ suborganizations });
-    return suborganizations;
+export const GetElementLinkAdditionalLookupsThunk = createAsyncThunk("general/additional_lookups", async ()=> {
+    const lookups = await getElementLinkAdditionalLookups();
+    return lookups;
 });
 
- export const GetDepartmentsThunk = createAsyncThunk("general/departments", async (suborganizationID: string)=> {
+export const GetSuborganizatonsThunk = createAsyncThunk("general/suborganizations", async ()=> {
+    const suborganizations = await getSuborganizations();
+    return suborganizations.data;
+});
+
+export const GetDepartmentsThunk = createAsyncThunk("general/departments", async (suborganizationID: string)=> {
     const departments = await getDepartments(suborganizationID);
-    console.log({ departments });
-    return departments;
+    return departments.data;
 });
 
- export const GetGradesThunk = createAsyncThunk("general/grades", async ()=> {
-    const suborganizations = await getSuborganizations();
-    console.log({ suborganizations });
-    return suborganizations;
+export const GetGradesThunk = createAsyncThunk("general/grades", async ()=> {
+    const grades = await getGrades();
+    return grades.data;
 });
 
- export const GetGradeStepsThunk = createAsyncThunk("general/gradesteps", async (gradeID: string)=> {
-    const departments = await getDepartments(gradeID);
-    console.log({ departments });
-    return departments;
+export const GetGradeStepsThunk = createAsyncThunk("general/gradesteps", async (gradeID: string)=> {
+    const gradeSteps = await getGradeSteps(gradeID);
+    return gradeSteps;
 });
 
 const initialState: GeneralInitialStateType = {
@@ -73,7 +107,9 @@ const initialState: GeneralInitialStateType = {
     departments: [],
     grades: [],
     gradeSteps: [],
-    lookups: {},
+    elementLookups: {},
+    linkLookups: {},
+    additionalLookups: {},
 };
 
 const reducers = {};
@@ -85,8 +121,35 @@ const generalSlice = createSlice({
 
     extraReducers(builder) {
         builder
-            .addCase(GetLookupsThunk.fulfilled, (state, action)=> {
-                return { ...state, error: true, loading: false, lookups: action.payload??{}  }
+            .addCase(GetElementLookupsThunk.fulfilled, (state, action)=> {
+                return { ...state, error: true, loading: false, elementLookups: action.payload??{}  }
+            })
+            .addCase(GetJobTitlesAndLocations.fulfilled, (state, action)=> {
+                return { 
+                    ...state, 
+                    error: false, 
+                    loading: false, 
+                    linkLookups: action.payload? { ...state.linkLookups, ...action.payload }:{}  
+                }
+            })
+            .addCase(GetCategoriesAndTypes.fulfilled, (state, action)=> {
+                return { 
+                    ...state, 
+                    error: false, 
+                    loading: false, 
+                    linkLookups: action.payload? { ...state.linkLookups, ...action.payload }:{}  
+                }
+            })
+            .addCase(GetUnions.fulfilled, (state, action)=> {
+                return { 
+                    ...state, 
+                    error: false, 
+                    loading: false, 
+                    linkLookups: action.payload? { ...state.linkLookups, ...action.payload }:{}  
+                }
+            })
+            .addCase(GetElementLinkAdditionalLookupsThunk.fulfilled, (state, action)=> {
+                return { ...state, error: true, loading: false, additionalLookups: action.payload??{}  }
             })
             .addCase(GetSuborganizatonsThunk.fulfilled, (state, action)=> {
                 return { ...state, error: true, loading: false, suborganizations: action.payload??[]  }

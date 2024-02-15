@@ -1,17 +1,22 @@
+import { ReactComponentElement } from "react";
 import "./DetailsGrid.scss";
+import { AnyObject } from "yup";
 
 export interface DetailUnitType {
     title: string;
-    value: string;
+    value: string | any;
 }
 
-const GridRowCell = (props: {data: DetailUnitType}) => {
-
-
+const GridRowCell = ({data}: {data: DetailUnitType}) => {
+    
     return (
         <div className="grid-row-cell">
-            <h4>{props.data.title}</h4>
-            <p>{props.data.value}</p>
+            <h4>{data.title}</h4>
+            {Array.isArray(data.value)?
+                <span>{data.value?.map((value, i)=> <p>{`${value}${i === data.value.length-1? "" : ","}`}</p>)}</span>
+                :
+                <p>{data.value}</p>
+            }
         </div>
     )
 };

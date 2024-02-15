@@ -1,0 +1,61 @@
+@import "global-variables";
+
+#element-links-outlet {
+    @extend .page-container;
+
+    .breadcrumb-container {
+        padding: 14px 0;
+
+        .breadcrumbs {
+            font-weight: 700;
+            color: #ABB3C5;
+        }
+        .activeCrumb {
+            color: $blue-color;
+        }
+    }
+
+    .main-content {
+        background-color: #fff;
+        height: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        overflow: scroll;
+
+        button.back-button {
+            background-color: transparent;
+            color: $green-color;
+            border: $green-color solid 2px;
+            width: 24px;
+            height: 24px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+
+            &:focus, &:active, &:hover {
+                @extend .back-button;
+
+                outline: solid $green-color;
+                border: none;
+                font-size: 12px;
+            }
+        }
+
+        .title {
+            color: $blue-color;
+            font-size: 19px;
+        }
+        section.details {
+            margin-bottom: 100px;
+        }
+        section.actions {
+            @extend .actions-section-container;
+        }
+        .data-section {
+            padding: 24px 0;
+        }
+    }
+    
+}

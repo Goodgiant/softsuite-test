@@ -1,32 +1,53 @@
 import { Outlet } from "react-router-dom";
 import "./Layout.scss";
 import { Breadcrumb, Layout as LayoutComponenet, Menu, MenuProps, theme } from 'antd';
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from "@ant-design/icons";
-import React from "react";
+import { AppstoreFilled, LaptopOutlined, NotificationOutlined, SettingFilled, SettingOutlined, UserOutlined } from "@ant-design/icons";
+import React, { useState } from "react";
 import Sider from "antd/es/layout/Sider";
 import companyLogo from "../assets/company-logo.svg";
+import switcherIcon from "../assets/table_switch-icon.svg";
+
+
+type MenuItem = Required<MenuProps>['items'][number];
+function getItem(
+    label: React.ReactNode,
+    key: React.Key,
+    icon?: React.ReactNode,
+    children?: MenuItem[],
+    type?: 'group',
+  ): MenuItem {
+    return {
+      key,
+      icon,
+      children,
+      label,
+      type,
+    } as MenuItem;
+}
+
+const items: MenuItem[] = [
+    getItem('Switch Module', 'sub1', <img src={switcherIcon} />, [
+      getItem('Payroll Management', '1'),
+    ]),
+    getItem('Navigation Two', 'sub2', <AppstoreFilled />),
+    getItem('Settings', 'sub4', <SettingFilled />, [
+      getItem('Elements', '9'),
+    ]),
+];// submenu keys of first level
+const rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
+
 
 const Layout = () => {
+    const [openKeys, setOpenKeys] = useState(['sub4']);
 
-    const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
-        (icon, index) => {
-          const key = String(index + 1);
-      
-          return {
-            key: `sub${key}`,
-            icon: React.createElement(icon),
-            label: `subnav ${key}`,
-      
-            children: new Array(4).fill(null).map((_, j) => {
-              const subKey = index * 4 + j + 1;
-              return {
-                key: subKey,
-                label: `option${subKey}`,
-              };
-            }),
-          };
-        },
-      );
+    // const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
+    //     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
+    //     if (latestOpenKey && rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
+    //     setOpenKeys(keys);
+    //     } else {
+    //     setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+    //     }
+    // };
 
     return (
         <div id="layout-container">
@@ -38,11 +59,13 @@ const Layout = () => {
                 <LayoutComponenet>
                     <Sider style={{ background: "transparent" }} width={"100%"}>
                         <Menu
-                        mode="inline"
-                        defaultSelectedKeys={['1']}
-                        defaultOpenKeys={['sub1']}
-                        style={{ height: '100%' }}
-                        items={items2}
+                            mode="inline"
+                            defaultSelectedKeys={['sub4']}
+                            defaultOpenKeys={openKeys}
+                            style={{ height: '100%' }}
+                            items={items}
+                            openKeys={openKeys}
+                            // onOpenChange={onOpenChange}
                         />
                     </Sider>
                 </LayoutComponenet>

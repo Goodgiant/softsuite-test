@@ -36,6 +36,51 @@ $blue-border: 2px solid blue;
             height: 100%;
             width: $sidebar-width;
             overflow: scroll;
+
+            .ant-menu-submenu-title {
+                width: 240px;
+                height: 57px;
+                // border: $red-border;
+
+
+            }
+
+            .ant-menu-submenu-selected {
+                // @extend .ant-menu-submenu-title;
+                background-color: $green-color;
+                span {
+                    color: #fff !important;
+                }
+
+                .ant-menu-title-content {
+                    color: #fff;
+                }
+
+                .ant-menu-submenu-arrow {
+                    color: #fff;
+                }
+
+
+            }
+
+            .ant-menu-sub {
+                background-color: #fff;
+            }
+
+            .ant-menu-item-only-child {
+                background-color: lighten($green-color, 40%);
+                span {
+                    color: $blue-color !important;
+                }
+
+                .ant-menu-title-content {
+                    color: $blue-color;
+                }
+            }
+
+            .ant-menu-item {
+                @extend .ant-menu-submenu-title;
+            }
         }
 
         .right {
