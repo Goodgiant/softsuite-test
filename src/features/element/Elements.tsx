@@ -15,6 +15,7 @@ import ElementForm, { ElementFormStateType } from "../../components/Forms/Elemen
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { CreateElementThunk, DeleteElementThunk, GetElementsThunk, UpdateElementThunk, setSelectedElement } from "./elementSlice";
 import DeleteConfirmationModal from "../../components/Modals/ConfirmationModal/ConfirmationModal";
+import { myFullName } from "../../redux/generalSlice";
 
 type ElementRowActions = "view"|"edit"|"delete";
 
@@ -94,14 +95,12 @@ const Elements = () => {
     }
 
     const viewElementLinks = (rowData: ElementFormStateType) => {
-        console.log({ rowData })
         const formatData = { ...rowData, status: rowData.status?.props.children };
-        console.log({ formatData })
+        
         dispatch(setSelectedElement(formatData));
     }
 
     const onClickEdit = (rowData: ElementFormStateType) => {
-        console.log({ rowData })
         const formatData = { ...rowData, status: rowData.status?.props.children };
         dispatch(setSelectedElement(formatData));
         setEditMode(true);
@@ -109,7 +108,6 @@ const Elements = () => {
     }
 
     const onClickDelete = (rowData: ElementFormStateType) => {
-        console.log({ rowData })
         const formatData = { ...rowData, status: rowData.status?.props.children };
         dispatch(setSelectedElement(formatData));
         setShowConfirmModal(true);
@@ -228,7 +226,7 @@ const Elements = () => {
                     <NoDataDisplay message="There are no elements to display" />
                     : 
                     <ElementTable 
-                        data={elements.filter(element=> element.name?.toLowerCase().includes(searchTerm.toLowerCase()))} 
+                        data={elements.filter(element=> element.modifiedBy == myFullName && element.name?.toLowerCase().includes(searchTerm.toLowerCase()))} 
                         columns={columns}
                         dataSize={elements.length}
                     />

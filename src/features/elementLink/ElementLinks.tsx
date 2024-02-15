@@ -16,7 +16,7 @@ import DeleteConfirmationModal from "../../components/Modals/ConfirmationModal/C
 import DetailsGrid from "../../components/DetailsGrid/DetailsGrid";
 import SideDrawer from "../../components/SideDrawer/SideDrawer";
 import ElementLinkForm from "../../components/Forms/Element/ElementLinkForm";
-import { GetGradesThunk, GetSuborganizatonsThunk, GetJobTitlesAndLocations, GetCategoriesAndTypes, GetUnions } from "../../redux/generalSlice";
+import { GetGradesThunk, GetSuborganizatonsThunk, GetJobTitlesAndLocations, GetCategoriesAndTypes, GetUnions, myFullName } from "../../redux/generalSlice";
 import { setSelectedElement } from "../element/elementSlice";
 
 type ElementRowActions = "view"|"edit"|"delete";
@@ -278,18 +278,17 @@ const ElementLinks = () => {
         
     ]
 
-    const getAdditionalInfoValue= (lookupId:string) =>{
+    const getLookupInfo= (lookupId:string) =>{
 
         let objectInAddedInfoArray= selectedElementLink?.additionalInfo?.find(item=> item.lookupId === lookupId);
 
         linkLookups.unions?.find(item=> item.id === selectedElementLink?.unionId);
-        console.log({ objectInAddedInfoArray })
         
         if(objectInAddedInfoArray || Number(lookupId) < 9){
             let finder;
             if (lookupId === '9') {
                 finder = linkLookups?.housings?.find(item=> item.id === objectInAddedInfoArray?.lookupValueId);
-                // console.log({finder})
+                
                 return finder;
             }
             if (lookupId === '8') {
@@ -355,11 +354,11 @@ const ElementLinks = () => {
         },
         {
             title: "union",
-            value: getAdditionalInfoValue('8')?.name,
+            value: getLookupInfo('8')?.name,
         },
         {
             title: "housing",
-            value: getAdditionalInfoValue("9")?.name,
+            value: getLookupInfo("9")?.name,
         },
         {
             title: "Effective start date",
@@ -403,7 +402,7 @@ const ElementLinks = () => {
                     <NoDataDisplay message="There are no element links to display" />
                     : 
                     <ElementLinkTable 
-                        data={elementLinks?.filter(link=> link.name?.includes(searchTerm))} 
+                        data={elementLinks?.filter(link=> link.modifiedBy === myFullName && link.name?.includes(searchTerm))} 
                         columns={columns}
                         dataSize={elementLinks.length}
                     />

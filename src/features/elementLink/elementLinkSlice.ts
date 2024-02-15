@@ -18,7 +18,7 @@ export const GetElementLinksThunk = createAsyncThunk("elementLinks/getAll", asyn
     const { elements } = store.getState();
     const selectedElementID = elements?.selectedElement?.id;
     const links = selectedElementID && await getElementLinks(selectedElementID);
-    console.log({ link:  links.data.content})
+    
     return links.data.content;
 });
 
@@ -26,7 +26,7 @@ export const CreateElementLinkThunk = createAsyncThunk("elementLinks/create", as
     const { elements } = store.getState();
     const selectedElementID = elements?.selectedElement?.id;
     const newElementLink = selectedElementID && await createNewElementLink(selectedElementID, data);
-    console.log({newElementLink});
+    
     return newElementLink;
 });
 
@@ -35,7 +35,7 @@ export const UpdateElementLinkThunk = createAsyncThunk("elementLinks/update", as
     const selectedElementID = elements?.selectedElement?.id;
     
     const updatedElement = selectedElementID && await updateElementLink(selectedElementID, data);
-    console.log({updatedElement});
+    
     return updatedElement;
 });
 
@@ -45,7 +45,7 @@ export const DeleteElementLinkThunk = createAsyncThunk("elementLinks/delete", as
     const selectedElementID = elements?.selectedElement?.id;
 
     const deletedElement = selectedElementID && selectedElementLinkID && await deleteElementLink(selectedElementID, selectedElementLinkID);
-    console.log({deletedElement});
+    
     return deletedElement;
 });
 

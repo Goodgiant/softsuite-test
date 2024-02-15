@@ -19,20 +19,17 @@ export const GetElementsThunk = createAsyncThunk("elements/getAll", async ()=> {
 
 export const CreateElementThunk = createAsyncThunk("elements/create", async (data: ElementFormStateType )=> {
     const newElement = await createNewElement(data);
-    console.log({newElement});
     return newElement;
 });
 
 export const UpdateElementThunk = createAsyncThunk("elements/update", async (data: ElementFormStateType )=> {
     const updatedElement = await updateElement(data);
-    console.log({updatedElement});
     return updatedElement;
 });
 
 export const DeleteElementThunk = createAsyncThunk("elements/delete", async ()=> {
     const { elements } = store.getState();
     const deletedElement = elements.selectedElement?.id && await deleteElement(elements.selectedElement?.id);
-    console.log({deletedElement});
     return deletedElement;
 });
 

@@ -42,21 +42,13 @@ interface GeneralInitialStateType  {
     };
 }
 
+export const myFullName = "Victor Izu-Akiti";
 
 export const GetElementLookupsThunk = createAsyncThunk("general/element_lookups", async ()=> {
     const lookups = await getElementLookups();
     return lookups;
 });
-// export const GetElementLinkLookupsThunk = createAsyncThunk("general/link_lookups", async ()=> {
-//     const lookups = [
-//         await getJobTitles(), 
-//         await getJobTitles(), 
-//         await getJobTitles(), 
-//         await getJobTitles(), 
-//         await getJobTitles(), 
-//     ];
-//     return lookups;
-// });
+
 export const GetJobTitlesAndLocations = createAsyncThunk("general/title_location", async ()=> {
     const lookups = {
         jobTitles: await getJobTitles(), 

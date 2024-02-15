@@ -25,6 +25,7 @@ export interface ElementFormStateType {
     "effectiveEndDate"?: string,
     "selectedMonths"?: string[],
     "payFrequency"?: string,
+    "modifiedBy"?: string,
 }
 
 let totalSteps = 2;

@@ -11,6 +11,7 @@ import notifIcon from "../assets/notif-icon.svg";
 import profilePhoto from "../assets/profile-photo.png";
 import { ModuleSwitcher } from "../components/Sidebar/ModuleSwitcher";
 import SearchBar from "../components/SearchBar/SearchBar";
+import { myFullName } from "../redux/generalSlice";
 
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -66,7 +67,7 @@ const Layout = () => {
                                     <img src={profilePhoto} alt="" />
                                 </div>
                                 <div className="profile-info-container">
-                                    <h4>Victor Izu-Akiti</h4>
+                                    <h4>{myFullName}</h4>
                                     <p>Payroll Manager</p>
                                 </div>
                             </div>

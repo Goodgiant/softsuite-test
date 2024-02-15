@@ -38,6 +38,7 @@ export interface ElementLinkFormStateType {
       "lookupId": string,
       "lookupValueId": string,
     }[],
+    "modifiedBy"?: string,
 }
 
 const totalSteps = 3;
@@ -62,7 +63,7 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
     
     useEffect(()=> {
         setStep(1);
-        if (props.editMode) {
+        if (props.editMode && selectedElementLink) {
             setData(selectedElementLink);
             selectedElementLink?.suborganizationId && dispatch(GetDepartmentsThunk(selectedElementLink?.suborganizationId));
             setTimeout(()=> {
@@ -70,6 +71,13 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                 selectedElementLink?.grade && dispatch(GetGradeStepsThunk(selectedElementLink?.grade));
         
             }, 700)
+        } else {
+            setData({
+                status: "active",
+                automate: "yes",
+                amountType: "Fixed Value",
+                additionalInfo: [],
+            })
         }
     }, [selectedElementLink])
 
@@ -101,7 +109,7 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
         
         let realValue = value?.target?.value?? value;
         let newValue = key==="amount" || key==="rate"? Number(realValue) : realValue;
-        console.log({[key]: newValue})
+       
 
         setData((prev)=> ({
             ...prev,
@@ -231,16 +239,15 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                         }
                         </Select>
                     </label>
-                    {data?.suborganizationId &&
                     <label className="input-group" hidden={data?.suborganizationId? false : true}>
                         Department
                         <Select 
                             onChange={(value)=> {
                                 handleInputChange({key: "departmentId", value});
-                                // handleInputChange({
-                                //     key: "departmentValueId", 
-                                //     value: departments?.find(item => item.id === value)?.name
-                                // });
+                                handleInputChange({
+                                    key: "departmentValueId", 
+                                    value: departments?.find(item => item.id === value)?.name
+                                });
                             } }
                             value={data?.departmentId} 
                             className="select-element" 
@@ -250,7 +257,7 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                             departments?.map((cat, i)=> <Select.Option className="select-option" key={i} value={cat.id}>{cat.name}</Select.Option>)
                         }
                         </Select>
-                    </label>}
+                    </label>
                 </div>
                 <div className="form-row">
                     <label className="input-group">
@@ -349,7 +356,6 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                         Grade
                         <Select 
                             onChange={(value)=> {
-                                console.log(value);
                                 handleInputChange({key: "grade", value});
                                 handleInputChange({
                                     key: "gradeValueId", 
@@ -367,7 +373,7 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                         }
                         </Select>
                     </label>
-                    {data?.grade && 
+
                     <label className="input-group" hidden={data?.suborganizationId? false : true}>
                         Grade Step
                         <Select 
@@ -386,7 +392,7 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                             gradeSteps?.map((cat, i)=> <Select.Option className="select-option" key={i} value={cat.id}>{cat.name}</Select.Option>)
                         }
                         </Select>
-                    </label>}
+                    </label>
                 </div>
                 <div className="form-row">
                     <label className="input-single">
