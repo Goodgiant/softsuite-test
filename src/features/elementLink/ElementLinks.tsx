@@ -23,7 +23,7 @@ type ElementRowActions = "view"|"edit"|"delete";
 
 const ElementLinks = () => {
     const dispatch = useAppDispatch();
-    const { loading, elementLinks, selectedElementLink } = useAppSelector(state=> state.elementLinks);
+    const { elementLinks, selectedElementLink } = useAppSelector(state=> state.elementLinks);
     const { grades, suborganizations, linkLookups } = useAppSelector(state=> state.general);
     const { selectedElement } = useAppSelector(state=> state.elements);
     const storedElement = JSON.parse(sessionStorage.getItem('selectedElement') as string);

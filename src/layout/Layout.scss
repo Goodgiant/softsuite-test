@@ -2,7 +2,7 @@
 
 $header-height: 90px;
 $footer-height: 58px;
-$sidebar-width: 302px;
+$sidebar-width: 300px;
 $main-width: calc(100vw - $sidebar-width);
 $red-border: 2px solid red;
 $blue-border: 2px solid blue;
@@ -15,11 +15,90 @@ $blue-border: 2px solid blue;
     .top {
         position: absolute;
         top: 0;
+        display: flex;
+        align-items: center;
         width: 100%;
         height: $header-height;
         box-sizing: border-box;
         background-color: #fff;
         padding: 20px;
+
+        div.logo-div {
+            width: $sidebar-width;
+        }
+
+        section {
+            width: $main-width;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+
+            .header-content {
+                flex: 1;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                overflow: auto;
+
+                .header-content-info {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 310px;
+
+                    .notif-icon {
+                        height: 40px;
+                        width: 40px;
+                    }
+
+                    .profile-info {
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-end;
+                        gap: 14px;
+                        min-width: fit-content;
+
+                        .profile-photo-container {
+                            height: 48px;
+                            width: 48px;
+                            background-color: $gray-color;
+                            border-radius: 50px;
+                            overflow: hidden;
+                            display: flex;
+                            justify-content: center;
+
+                            img {
+                                max-width: 48px;
+                                max-height: 48px;
+                            }
+
+                            
+                        }
+
+                        .profile-info-container {
+                            padding: 14px;
+                            min-width: fit-content;
+
+                            h4 {
+                                color: $blue-color;
+                                font-weight: 600;
+                                padding: 0px !important;
+                                margin: 0px !important;
+                                // min-width
+                            }
+                            p {
+                                color: #818DA9;
+                                font-weight: 400;
+                                padding: 0px !important;
+                                margin: 0px !important;
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
     }
 
     .center {

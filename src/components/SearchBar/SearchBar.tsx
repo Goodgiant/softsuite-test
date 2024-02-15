@@ -5,12 +5,13 @@ import searchIcon from "../../assets/search-icon.svg";
 interface SearchBarPropType {
     placeholder: string
     onSubmit: (value: string) => void
+    alt?: boolean
 }
 const SearchBar = (props: SearchBarPropType) => {
     const [value, setValue] = useState("");
     
     return (
-        <div id="search-container">
+        <div id={props.alt? "search-container-alt" : "search-container"}>
             <input 
                 className="search-input"
                 type="text" 

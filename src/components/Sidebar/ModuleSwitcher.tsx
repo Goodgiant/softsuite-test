@@ -3,16 +3,16 @@ import switcherIcon from "../../assets/table_switch-icon.svg";
 import carretDown from "../../assets/carret-down.svg";
 import { Select } from "antd";
 
-export const ModuleSwitcher = () => {
+export const ModuleSwitcher = (props: { title:string, value: string, icon: any, alt?: boolean}) => {
 
     return (
-        <div className="module-switcher">
+        <div className={props.alt? "module-switcher-alt" : "module-switcher"}>
             <img src={switcherIcon} alt="module switch icon" />
             <div>
-                <p>Switch Module</p>
-                <h4>Payroll Management</h4>
+                <p>{props.title}</p>
+                <h4>{props.value}</h4>
             </div>
-            <img src={carretDown} alt="carret" />
+            {props.icon}
         </div>
     )
 }
