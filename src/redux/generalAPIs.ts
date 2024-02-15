@@ -74,7 +74,7 @@ export const getTypes = async () => {
                 const { data } = await api.get("lookups/4/lookupvalues");
                 
                 resolve(data)
-            }, delay * 5000);
+            }, delay * 6000);
         });
     }
 
@@ -88,7 +88,7 @@ export const getUnions = async () => {
                 const { data } = await api.get("lookups/8/lookupvalues");
                 console.log({ data: data })
                 resolve(data)
-            }, delay * 6000);
+            }, delay * 7000);
         });
     }
 

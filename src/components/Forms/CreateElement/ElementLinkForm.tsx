@@ -8,16 +8,18 @@ import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { GetDepartmentsThunk, GetGradeStepsThunk } from "../../../redux/generalSlice";
 
 export interface ElementLinkFormStateType {
+    "id"?: string,
     "name"?: string,
     "elementId"?: number,
     "suborganizationId"?: number,
     "suborganizationValueId"?: string,
-    "locationId"?: number,
+    "locationId"?: string,
+    "locationValueId"?: string,
     "departmentId"?: number,
     "departmentValueId"?: string,
-    "employeeCategoryId"?: number,
+    "employeeCategoryId"?: string,
     "employeeCategoryValueId"?: string,
-    "employeeTypeId"?: number,
+    "employeeTypeId"?: string,
     "employeeTypeValueId"?: number,
     "jobTitleId"?: number,
     "jobTitleValueId"?: string
@@ -26,6 +28,7 @@ export interface ElementLinkFormStateType {
     "gradeStep"?: number,
     "gradeStepValueId"?: string,
     "unionId"?: number,
+    "unionValueId"?: string,
     "amountType"?: string,
     "amount"?: number,
     "rate"?: number,
@@ -34,8 +37,8 @@ export interface ElementLinkFormStateType {
     "status"?: any,
     "automate"?: string,
     "additionalInfo"?: {
-      "lookupId": number,
-      "lookupValueId": number,
+      "lookupId": string,
+      "lookupValueId": string,
     }[],
 }
 
@@ -52,26 +55,6 @@ const items = [
         title: 'Processing Information',
     },
 ];
-
-// schema for yup validation
-const schema = yup.object().shape({
-    name: yup.string().required(),
-    description: yup.string().required(),
-    payRunId: yup.number().required(),
-    // payRunValueId: yup.number().required(),
-    suborganizationId: yup.number().required(),
-    // classificationValueId: yup.number().required(),
-    categoryId: yup.number().required(),
-    // categoryValueId: yup.number().required(),
-    reportingName: yup.string().required(),
-    processingType: yup.string().required(),
-    status: yup.string().required(),
-    prorate: yup.string().required(),
-    effectiveStartDate: yup.string().required(),
-    effectiveEndDate: yup.string().required(),
-    selectedMonths: yup.array().required(),
-    payFrequency: yup.string().required(),
-});
 
 const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSubmit: (formData: ElementLinkFormStateType)=> void, editMode?: boolean }) => {
     const dispatch = useAppDispatch();
@@ -106,14 +89,14 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
         if (key === 'grade') {
             dispatch(GetGradeStepsThunk(value));
         }
-
         
-        const realValue = value?.target? 
-            value.target.value : value;
+        let realValue = value?.target?.value?? value;
+        let newValue = key==="amount" || key==="rate"? Number(realValue) : realValue;
+        console.log({[key]: newValue})
 
         setData((prev)=> ({
             ...prev,
-            [key]: realValue,
+            [key]: newValue,
         }));
     };
 
@@ -136,34 +119,13 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
         }
     }
 
-    //method to trigger validation and return the error message
-    
-    // const validateFormData = async (formData:ElementLinkFormStateType) => {
-    //     const errors = await schema.validate(formData);
-    //     console.log({ errors });
-    //     if (errors) {
-    //         return errors;
-    //     } else {
-    //         return undefined;
-    //     }
-    // };
-
     const submitForm = async () => {
         if (data) {
-            // const valid = await validateFormData(data);
-            // if (valid) {
-                props.handleSubmit(data);
-            // }
+            props.handleSubmit(data);
         } else {
-            // TODO:
+            // TODO: error toast
         }
     }
-
-    // const getGradeSteps =()=> {
-    //     let selectedGrade = grades?.find(item=> item.id == data?.grade);
-        
-    //     selectedGrade && dispatch(GetGradeStepsThunk(selectedGrade?.id));
-    // }
 
     const getElementLinkFormRowsByStep = (step: number) => {
         switch (step) {
@@ -203,10 +165,10 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                         <Select 
                             onChange={(value)=> {
                                 handleInputChange({key: "departmentId", value});
-                                handleInputChange({
-                                    key: "departmentValueId", 
-                                    value: departments?.find(item => item.id === value)?.name
-                                });
+                                // handleInputChange({
+                                //     key: "departmentValueId", 
+                                //     value: departments?.find(item => item.id === value)?.name
+                                // });
                             } }
                             value={data?.departmentId} 
                             className="select-element" 
@@ -246,8 +208,8 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                             onChange={(value)=> {
                                 handleInputChange({key: "locationId", value});
                                 handleInputChange({
-                                    key: "locationValaueId", 
-                                    value: linkLookups?.locations?.find(item => item.id == JSON.stringify(value))?.name
+                                    key: "locationValueId", 
+                                    value: linkLookups?.locations?.find(item => item.id == value)?.name
                                 });
                             }} 
                             value={data?.locationId} 
@@ -270,7 +232,7 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                                 handleInputChange({key: "employeeTypeId", value});
                                 handleInputChange({
                                     key: "employeeTypeValueId", 
-                                    value: linkLookups?.employeeTypes?.find(item => item.id == JSON.stringify(value))?.name
+                                    value: linkLookups?.employeeTypes?.find(item => item.id == value)?.name
                                 });
                             }} 
                             value={data?.employeeTypeId} 
@@ -291,7 +253,7 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                                 handleInputChange({key: "employeeCategoryId", value});
                                 handleInputChange({
                                     key: "employeeCategoryValueId", 
-                                    value: linkLookups?.employeeCategories?.find(item => item.id == JSON.stringify(value))?.name
+                                    value: linkLookups?.employeeCategories?.find(item => item.id === value)?.name
                                 });
                             }} 
                             value={data?.employeeCategoryId} 
@@ -340,7 +302,7 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                             onChange={(value)=> {
                                 handleInputChange({key: "gradeStep", value});
                                 handleInputChange({
-                                    key: "gradeStep", 
+                                    key: "gradeStepValueId", 
                                     value: gradeSteps?.find(item => item.id === value)?.name
                                 });
                             } }
@@ -478,10 +440,10 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                     <label className="input-group" hidden={data?.suborganizationId? false : true}>
                         Amount
                         <Input
-                            type="number" 
+                            type="decimal" 
                             onChange={(value)=> {
-                                handleInputChange({key: "rate", value: null});
-                                handleInputChange({key: "amount", value});
+                                handleInputChange({key: "rate", value: 0});
+                                handleInputChange({key: "amount", value: value});
                             } }
                             value={data?.amount} 
                             className="select-element" 
@@ -492,10 +454,10 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                     <label className="input-group" hidden={data?.suborganizationId? false : true}>
                         Rate
                         <Input
-                            type="number"
-                            onChange={(value)=> {
-                                handleInputChange({key: "amount", value: null});
-                                handleInputChange({key: "rate", value});
+                            type="decimal"
+                            onChange={(value:any)=> {
+                                handleInputChange({key: "amount", value: 0});
+                                handleInputChange({key: "rate", value: value});
                             } }
                             value={data?.rate} 
                             className="select-element" 

@@ -26,7 +26,7 @@ export const createNewElementLink = async (elementID: string, data: ElementFormS
 export const updateElementLink = async (elementID: string, data: ElementFormStateType) => {
 
     try {
-        const result = await api.put(`elements/${elementID}/elementlinks` + data.id, { ...data, modifiedBy: "Victor Izu-Akiti"});
+        const result = await api.put(`elements/${elementID}/elementlinks/` + data.id, { ...data, modifiedBy: "Victor Izu-Akiti"});
         return result.data;
     } catch (err) {
         console.log({err})

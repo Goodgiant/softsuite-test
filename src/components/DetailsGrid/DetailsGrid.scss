@@ -3,7 +3,8 @@
 #details-grid-container {
     box-sizing: border-box;
     height: max-content;
-    width: 100%;
+    width: fit-content;
+    max-width: 600px;
     display: flex;
     align-items: flex-start;
     flex-wrap: wrap;

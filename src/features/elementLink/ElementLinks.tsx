@@ -23,7 +23,7 @@ type ElementRowActions = "view"|"edit"|"delete";
 
 const ElementLinks = () => {
     const dispatch = useAppDispatch();
-    const { loading, elementLinks } = useAppSelector(state=> state.elementLinks);
+    const { loading, elementLinks, selectedElementLink } = useAppSelector(state=> state.elementLinks);
     const { selectedElement } = useAppSelector(state=> state.elements);
     
     useEffect(()=> {
@@ -127,33 +127,7 @@ const ElementLinks = () => {
         setShowConfirmModal(true);
     }
 
-    // const rowOptions: MenuProps["items"] = [
-    //     {
-    //         label: <Link to="element-links">View Element Links</Link>,
-    //         key: `view`,
-    //         icon: <EyeOutlined />,
-    //         style: { color: "#2D416F" }
-    //     },
-    //     {
-    //         label: `Edit`,
-    //         key: `edit`,
-    //         icon: <EditOutlined />,
-    //         style: { color: "#2D416F" }
-    //     },
-    //     {
-    //         label: `Delete`,
-    //         key: `delete`,
-    //         icon: <DeleteOutlined />,
-    //         danger: true,
-    //     }
-    // ];
-
-       /* TODO: Dynamically curate this list by mapping data fetch result keys */
-       /**
-     *  Action functions for each menu option 
-    */
-
-       const rowOptions = [
+    const rowOptions = [
         {
             label: `Edit`,
             key: `edit`,
@@ -168,77 +142,6 @@ const ElementLinks = () => {
         }
     ];
 
-    const tempcolumns: TableColumnsType<AnyObject> = [
-        {
-          title: "Name",
-          dataIndex: 'name',
-          sorter: {
-            compare: (a, b) => a.name.localeCompare(b.name),
-            multiple: 4,
-          },
-        },
-        {
-          title: 'Element Category',
-          dataIndex: 'categoryValueId',
-          sorter: {
-            compare: (a, b) => a.categoryValueId.localeCompare(b.categoryValueId),
-            multiple: 3,
-          },
-        },
-        {
-          title: 'Element Classification',
-          dataIndex: 'classificationValueId',
-          sorter: {
-            compare: (a, b) => a.classificationValueId.localeCompare(b.classificationValueId),
-            multiple: 2,
-          },
-        },
-        {
-          title: 'Status',
-          dataIndex: 'status',
-          sorter: {
-            compare: (a, b) => a.status.localeCompare(b.status),
-            multiple: 1,
-          },
-        },
-        {
-            title: 'Date & Time Modified',
-            dataIndex: 'createdAt',
-            sorter: {
-              compare: (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
-              multiple: 1,
-            },
-        },
-        {
-            title: 'ModifiedBy',
-            dataIndex: 'modifiedBy',
-            sorter: {
-              compare: (a, b) => a.modifiedBy.localeCompare(b.modifiedBy),
-              multiple: 5,
-            },
-        },
-        {
-            title: 'Action',
-            dataIndex: 'action',
-            render: (_, rowData) => (
-                <Dropdown 
-                    className="row-option-dropdown" 
-                    menu={{ 
-                        items: rowOptions, 
-                        onClick: ({ key })=> onClickRowOption(key as ElementRowActions, rowData) 
-                    }} 
-                    trigger={['click']}
-                >
-                    <a onClick={(e) => e.preventDefault()}>
-                    <Space>
-                        <RowActionButton />
-                    </Space>
-                    </a>
-                </Dropdown>
-            )
-        },
-    ];
-
     const columns: TableColumnsType<AnyObject> = [
         {
             title: "Name",
@@ -249,43 +152,35 @@ const ElementLinks = () => {
             },
         },
         {
-            title: 'Element Category',
-            dataIndex: 'categoryValueId',
+            title: 'Sub-Organization',
+            dataIndex: 'suborganizationValueId',
             sorter: {
             compare: (a, b) => a.categoryValueId.localeCompare(b.categoryValueId),
             multiple: 3,
             },
         },
         {
-            title: 'Element Classification',
-            dataIndex: 'classificationValueId',
+            title: 'Department',
+            dataIndex: 'departmentValueId',
             sorter: {
-            compare: (a, b) => a.classificationValueId.localeCompare(b.classificationValueId),
+            compare: (a, b) => a.departmentValueId.localeCompare(b.departmentValueId),
             multiple: 2,
             },
         },
         {
-            title: 'Status',
-            dataIndex: 'status',
+            title: 'Employee Category',
+            dataIndex: 'employeeCategoryValueId',
             sorter: {
-            compare: (a, b) => a.status.localeCompare(b.status),
+            compare: (a, b) => a.employeeCategoryValueId.localeCompare(b.employeeCategoryValueId),
+            multiple: 2,
+            },
+        },
+        {
+            title: 'Amount',
+            dataIndex: 'amount',
+            sorter: {
+            compare: (a, b) => a.amount - b.amount,
             multiple: 1,
-            },
-        },
-        {
-            title: 'Date & Time Modified',
-            dataIndex: 'createdAt',
-            sorter: {
-                compare: (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
-                multiple: 1,
-            },
-        },
-        {
-            title: 'ModifiedBy',
-            dataIndex: 'modifiedBy',
-            sorter: {
-                compare: (a, b) => a.modifiedBy.localeCompare(b.modifiedBy),
-                multiple: 5,
             },
         },
         {
@@ -368,6 +263,74 @@ const ElementLinks = () => {
         
     ]
 
+    const elementLinkDetails = [
+        {
+            title: "Name",
+            value: selectedElementLink?.name,
+        },
+        {
+            title: "Sub Organization",
+            value: selectedElementLink?.suborganizationValueId,
+        },
+        {
+            title: "Department",
+            value: selectedElementLink?.departmentValueId,
+        },
+        {
+            title: "location",
+            value: selectedElementLink?.locationValueId,
+        },
+        {
+            title: "employee type",
+            value: selectedElementLink?.employeeTypeValueId,
+        },
+        {
+            title: "employee category",
+            value: selectedElementLink?.employeeCategoryValueId,
+        },
+        {
+            title: "Effective date",
+            value: selectedElementLink?.effectiveStartDate,
+        },
+        {
+            title: "Status",
+            value: selectedElementLink?.status,
+        },
+        {
+            title: "grade",
+            value: selectedElementLink?.gradeValueId,
+        },
+        {
+            title: "grade step",
+            value: selectedElementLink?.gradeStepValueId,
+        },
+        {
+            title: "amount type",
+            value: selectedElementLink?.amountType,
+        },
+        {
+            title: selectedElementLink?.amountType === "Fixed Value"? "amount" : "rate",
+            value: selectedElementLink?.amountType === "Fixed Value"? selectedElementLink?.amount : selectedElementLink?.rate,
+        },
+        {
+            title: "union",
+            value: selectedElementLink?.unionValueId,
+        },
+        {
+            title: "housing",
+            value: selectedElementLink?.additionalInfo?.find(item=> item.lookupId === "9")?.lookupValueId,
+        },
+        {
+            title: "Effective start date",
+            value: selectedElementLink?.effectiveStartDate,
+        },
+        {
+            title: "Effective end date",
+            value: selectedElementLink?.effectiveEndDate,
+        }
+        
+    ]
+
     
     return (
         <div id="element-links-outlet">
@@ -424,11 +387,11 @@ const ElementLinks = () => {
             <DeleteConfirmationModal
                 open={showConfirmModal}
                 loading={false}
-                onConfirm={()=> setShowConfirmModal(false)}
+                onConfirm={deleteElementLink}
                 onCancel={()=> setShowConfirmModal(false)}
                 text="Are you sure you want to delete Element link?"
             />
-            <SideDrawer onClose={()=> setOpenDrawer(false)} open={openDrawer} title="element link details" />
+            <SideDrawer data={elementLinkDetails} onClose={()=> setOpenDrawer(false)} open={openDrawer} title="element link details" />
         </div>
     )
 }

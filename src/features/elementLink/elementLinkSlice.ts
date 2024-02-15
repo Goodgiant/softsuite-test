@@ -2,13 +2,14 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { createNewElementLink, deleteElementLink, getElementLinks, updateElementLink } from "./elementLinksAPI";
 import { ElementFormStateType } from "../../components/Forms/CreateElement/ElementForm";
 import { store } from "../../redux/store";
+import { ElementLinkFormStateType } from "../../components/Forms/CreateElement/ElementLinkForm";
 
 
 interface ElementLinkInitialStateType  {
     loading: boolean;
     error: boolean;
-    elementLinks: ElementFormStateType[] | [];
-    selectedElementLink: ElementFormStateType | null;
+    elementLinks: ElementLinkFormStateType[] | [];
+    selectedElementLink: ElementLinkFormStateType | null;
 }
 
 
