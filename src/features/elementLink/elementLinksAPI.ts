@@ -1,4 +1,4 @@
-import { ElementFormStateType } from "../../components/Forms/CreateElement/ElementForm";
+import { ElementFormStateType } from "../../components/Forms/Element/ElementForm";
 import { api } from "../../redux/generalAPIs";
 
 export const getElementLinks = async (elementID: string) => {

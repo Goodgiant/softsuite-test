@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AnyObject } from "yup";
+
 
 export const api = axios.create({
     baseURL: "https://650af6bedfd73d1fab094cf7.mockapi.io"
@@ -27,12 +27,12 @@ const delay = 2;
 
 export const getJobTitles = async () => {
     const res = ():any => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _) => {
             setTimeout(async () => {
                 const { data } = await api.get("lookups/6/lookupvalues");
                 
                 resolve(data)
-            }, delay * 3000);
+            }, delay * 100);
         });
     }
 
@@ -41,12 +41,12 @@ export const getJobTitles = async () => {
 
 export const getLocations = async () => {
     const res = ():any => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _) => {
             setTimeout(async () => {
                 const { data } = await api.get("lookups/7/lookupvalues");
                 
                 resolve(data)
-            }, delay * 4000);
+            }, delay * 200);
         });
     }
 
@@ -55,12 +55,12 @@ export const getLocations = async () => {
 
 export const getCategories = async () => {
     const res = ():any => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _) => {
             setTimeout(async () => {
                 const { data } = await api.get("lookups/3/lookupvalues");
                 
                 resolve(data)
-            }, delay * 5000);
+            }, delay * 300);
         });
     }
 
@@ -69,12 +69,12 @@ export const getCategories = async () => {
 
 export const getTypes = async () => {
     const res = ():any => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _) => {
             setTimeout(async () => {
                 const { data } = await api.get("lookups/4/lookupvalues");
                 
                 resolve(data)
-            }, delay * 6000);
+            }, delay * 500);
         });
     }
 
@@ -83,24 +83,68 @@ export const getTypes = async () => {
 
 export const getUnions = async () => {
     const res = ():any => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _) => {
             setTimeout(async () => {
                 const { data } = await api.get("lookups/8/lookupvalues");
-                console.log({ data: data })
+                
                 resolve(data)
-            }, delay * 7000);
+            }, delay * 1000);
         });
     }
 
     return await res();
 }
 
+export const getHousings = async () => {
+    const res = ():any => {
+        return new Promise((resolve, _) => {
+            setTimeout(async () => {
+                const { data } = await api.get("lookups/9/lookupvalues");
+                
+                resolve(data)
+            }, delay * 70);
+        });
+    }
+
+    return await res();
+}
+
+export const getWardrobes = async () => {
+    const res = ():any => {
+        return new Promise((resolve, _) => {
+            setTimeout(async () => {
+                const { data } = await api.get("lookups/10/lookupvalues");
+                
+                resolve(data)
+            }, delay * 50);
+        });
+    }
+
+    return await res();
+}
+
+export const getSecurities = async () => {
+    const res = ():any => {
+        return new Promise((resolve, _) => {
+            setTimeout(async () => {
+                const { data } = await api.get("lookups/11/lookupvalues");
+                
+                resolve(data)
+            }, delay * 10);
+        });
+    }
+
+    return await res();
+}
+
+
+
 // export const getElementLinkLookups = async () => {
 
 //     try {
         
 //         const jobTitleRes = ():any => {
-//             return new Promise((resolve, reject) => {
+//             return new Promise((resolve, _) => {
 //                 setTimeout(async () => {
 //                     const { data } = await api.get("lookups/6/lookupvalues");
                     
@@ -110,7 +154,7 @@ export const getUnions = async () => {
 //         }
 
 //         const locationRes = ():any => {
-//             return new Promise((resolve, reject) => {
+//             return new Promise((resolve, _) => {
 //                 setTimeout(async () => {
 //                     const { data } = await api.get("lookups/7/lookupvalues");
                     
@@ -120,7 +164,7 @@ export const getUnions = async () => {
 //         }
 
 //         const categoryRes = ():any => {
-//             return new Promise((resolve, reject) => {
+//             return new Promise((resolve, _) => {
 //                 setTimeout(async () => {
 //                     const { data } = await api.get("lookups/3/lookupvalues");
                     
@@ -130,7 +174,7 @@ export const getUnions = async () => {
 //         }
 
 //         const typeRes = ():any => {
-//             return new Promise((resolve, reject) => {
+//             return new Promise((resolve, _) => {
 //                 setTimeout(async () => {
 //                     const { data } = await api.get("lookups/4/lookupvalues");
                     
@@ -140,7 +184,7 @@ export const getUnions = async () => {
 //         }
 
 //         const unionRes = ():any => {
-//             return new Promise((resolve, reject) => {
+//             return new Promise((resolve, _) => {
 //                 setTimeout(async () => {
 //                     const { data } = await api.get("lookups/8/lookupvalues");
                     
@@ -209,7 +253,7 @@ export const getSuborganizations = async () => {
 
     try {
         const subOrg = ():any => {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve, _) => {
                 setTimeout(async () => {
                     const { data: suborganizations } = await api.get("suborganizations");
                     
@@ -243,7 +287,7 @@ export const getGrades = async () => {
 
     try {
         const grades = ():any => {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve, _) => {
                 setTimeout(async () => {
                     const { data: grades } = await api.get("grade");
                     

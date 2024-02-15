@@ -257,12 +257,16 @@ $gray-line: #CDCDCD;
                             &::placeholder {
                                 color: $gray-text;
                             }
+
                         }
                     
                         .select-element {
                             border: $gray-border;
                             border-radius: 4px;
                             min-height: 56px;
+                            &:hover {
+                                border: lightgreen 0.5px solid;
+                            }
             
                             .ant-select-selector {
                                 font-size: 16px;
@@ -362,7 +366,35 @@ $gray-line: #CDCDCD;
                             
                         }
                     }
+
+                    .ant-select-selection-overflow-item {
+                        min-height: 33px !important;
+                        min-width: 61px !important;
+
+                        .ant-select-selection-item {
+                            height: 100%;
+                            padding: 8px;
+
+                            .ant-select-selection-item-content {
+                                font-size: 14px;
+                            }
+                        }
+                    }
                 }
+
+                .additional-section {
+                    border: $gray-border;
+                    border-radius: 4px;
+                    padding: 14px;
+
+                    h4 {
+                        font-size: 16px;
+                        font-weight: 600;
+                        color: $blue-color;
+                    }
+                }
+
+                
             }
 
         }

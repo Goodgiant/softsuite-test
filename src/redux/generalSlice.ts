@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AnyObject } from "yup";
-import { getCategories, getDepartments, getElementLinkAdditionalLookups, getElementLookups, getGradeSteps, getGrades, getJobTitles, getLocations, getSuborganizations, getTypes, getUnions } from "./generalAPIs";
+import { getCategories, getDepartments, getElementLinkAdditionalLookups, getElementLookups, getGradeSteps, getGrades, getHousings, getJobTitles, getLocations, getSecurities, getSuborganizations, getTypes, getUnions, getWardrobes } from "./generalAPIs";
 
 type LookupObject = {
     "id": string,
@@ -31,6 +31,9 @@ interface GeneralInitialStateType  {
         jobTitles?: LookupObject[]
         locations?: LookupObject[]
         unions?: LookupObject[]
+        housings?: LookupObject[]
+        securities?: LookupObject[]
+        wardrobes?: LookupObject[]
     };
     additionalLookups: {
         housings?: LookupObject[]
@@ -71,6 +74,15 @@ export const GetCategoriesAndTypes = createAsyncThunk("general/category_type", a
 export const GetUnions = createAsyncThunk("general/union", async ()=> {
     const lookups = {
         unions: await getUnions(),
+    };
+    return lookups;
+});
+
+export const GetAdditionals = createAsyncThunk("general/additional_info", async ()=> {
+    const lookups = {
+        housings: await getHousings(),
+        securities: await getSecurities(),
+        wardrobes: await getWardrobes(),
     };
     return lookups;
 });
@@ -141,6 +153,14 @@ const generalSlice = createSlice({
                 }
             })
             .addCase(GetUnions.fulfilled, (state, action)=> {
+                return { 
+                    ...state, 
+                    error: false, 
+                    loading: false, 
+                    linkLookups: action.payload? { ...state.linkLookups, ...action.payload }:{}  
+                }
+            })
+            .addCase(GetAdditionals.fulfilled, (state, action)=> {
                 return { 
                     ...state, 
                     error: false, 

@@ -11,7 +11,7 @@ import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import RowActionButton from "../../components/Table/RowActionButton";
 import { Link } from "react-router-dom";
 import SuccessModal, { SuccessModalProps } from "../../components/Modals/SuccessModal/SuccessModal";
-import ElementForm, { ElementFormStateType } from "../../components/Forms/CreateElement/ElementForm";
+import ElementForm, { ElementFormStateType } from "../../components/Forms/Element/ElementForm";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { CreateElementThunk, DeleteElementThunk, GetElementsThunk, UpdateElementThunk, setSelectedElement } from "./elementSlice";
 import DeleteConfirmationModal from "../../components/Modals/ConfirmationModal/ConfirmationModal";

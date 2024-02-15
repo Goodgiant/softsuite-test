@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { createNewElement, deleteElement, getElements, updateElement } from "./elementAPI";
-import { ElementFormStateType } from "../../components/Forms/CreateElement/ElementForm";
+import { ElementFormStateType } from "../../components/Forms/Element/ElementForm";
 import { store } from "../../redux/store";
 
 
@@ -45,6 +45,7 @@ const initialState: ElementInitialStateType = {
 
 const reducers = {
     setSelectedElement: (state: any, action: PayloadAction<ElementFormStateType | null>) => {
+        sessionStorage.setItem('selectedElement', JSON.stringify(action.payload));
         return { ...state, selectedElement: action.payload };
     }
 };

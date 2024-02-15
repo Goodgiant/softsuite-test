@@ -1,8 +1,8 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { createNewElementLink, deleteElementLink, getElementLinks, updateElementLink } from "./elementLinksAPI";
-import { ElementFormStateType } from "../../components/Forms/CreateElement/ElementForm";
+import { ElementFormStateType } from "../../components/Forms/Element/ElementForm";
 import { store } from "../../redux/store";
-import { ElementLinkFormStateType } from "../../components/Forms/CreateElement/ElementLinkForm";
+import { ElementLinkFormStateType } from "../../components/Forms/Element/ElementLinkForm";
 
 
 interface ElementLinkInitialStateType  {

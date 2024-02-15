@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import "./ElementForm.scss";
 import dayjs from 'dayjs';
-import * as yup from 'yup';
 import { DatePicker, Input, Modal, Radio, Select, Steps, Switch } from "antd";
-import TextArea from "antd/es/input/TextArea";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
-import { GetDepartmentsThunk, GetGradeStepsThunk } from "../../../redux/generalSlice";
+import { GetAdditionals, GetDepartmentsThunk, GetGradeStepsThunk } from "../../../redux/generalSlice";
 
 export interface ElementLinkFormStateType {
     "id"?: string,
@@ -23,11 +21,11 @@ export interface ElementLinkFormStateType {
     "employeeTypeValueId"?: number,
     "jobTitleId"?: number,
     "jobTitleValueId"?: string
-    "grade"?: number,
+    "grade"?: string,
     "gradeValueId"?: string,
     "gradeStep"?: number,
     "gradeStepValueId"?: string,
-    "unionId"?: number,
+    "unionId"?: string,
     "unionValueId"?: string,
     "amountType"?: string,
     "amount"?: number,
@@ -67,6 +65,11 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
         if (props.editMode) {
             setData(selectedElementLink);
             selectedElementLink?.suborganizationId && dispatch(GetDepartmentsThunk(selectedElementLink?.suborganizationId));
+            setTimeout(()=> {
+
+                selectedElementLink?.grade && dispatch(GetGradeStepsThunk(selectedElementLink?.grade));
+        
+            }, 700)
         }
     }, [selectedElementLink])
 
@@ -74,15 +77,18 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
     const [data, setData] = useState<ElementLinkFormStateType | null>(props.editMode? selectedElementLink : {
         status: "active",
         automate: "yes",
-        amountType: "Fixed Value"
+        amountType: "Fixed Value",
+        additionalInfo: [],
     });
-    // console.log({ data })
 
     
     const [step, setStep] = useState(1);
-    const isNextableStep1 = data?.name // && data?.suborganizationId && data?.departmentId && data?.jobTitleId && data?.locationId && data?.employeeTypeId && data?.employeeCategoryId;
-    const isNextableStep2 = true; // data?.grade && data?.gradeStep && data?.unionId && ((data?.additionalInfo && data?.additionalInfo.forEach(info=> info.lookupId && info.lookupValueId)) || !data.additionalInfo);
-    const isSubmitable = isNextableStep1 && isNextableStep2 && data?.amountType && (data?.amount || data?.rate)// && data?.effectiveStartDate && data?.effectiveEndDate && data?.automate && data?.status;
+    useEffect(()=> {
+        step === 2 && dispatch(GetAdditionals());
+    }, [step])
+    const isNextableStep1 = data?.name
+    const isNextableStep2 = true;
+    const isSubmitable = isNextableStep1 && isNextableStep2 && data?.amountType && (data?.amount || data?.rate);
 
     const handleInputChange = ({value, key}:{key: string, value: any }): void => {
         
@@ -101,6 +107,41 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
             ...prev,
             [key]: newValue,
         }));
+    };
+    
+    const handleAdditionalInputChange = ({id, valueId}:{id: string, valueId: any }): void => {
+
+        const existingIndex = data?.additionalInfo?.findIndex(item=> {
+            return item.lookupId === id;
+        });
+
+        
+        if (existingIndex && existingIndex >= 0) {
+            
+            setData((prev)=> {
+                if (prev && prev?.additionalInfo) {
+                    prev.additionalInfo[existingIndex].lookupValueId = valueId;
+                }
+                return prev;
+            });
+        } else {
+            setData((prev)=> {
+                if (prev && prev?.additionalInfo) {
+                    let infoArray = [ 
+                        ...prev.additionalInfo, 
+                        {
+                            lookupId: id,
+                            lookupValueId: valueId
+                        }
+                    ]
+
+                    return { ...prev, additionalInfo: infoArray};
+                }
+                return prev;
+            });
+        }
+
+        
     };
 
     const handleCancel = () => {
@@ -127,6 +168,34 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
             props.handleSubmit(data);
         } else {
             // TODO: error toast
+        }
+    }
+
+    const getAdditionalInfoValue= (lookupId:string) =>{
+
+        let objectInAddedInfoArray= data?.additionalInfo?.find(item=> item.lookupId === lookupId);
+        
+        if(objectInAddedInfoArray){
+            let finder;
+            if (lookupId === '9') {
+                finder = linkLookups?.housings?.find(item=> item.id === objectInAddedInfoArray?.lookupValueId);
+                
+                return finder;
+            }
+            if (lookupId === '10') {
+                finder = linkLookups?.wardrobes?.find(item=> item.id === objectInAddedInfoArray?.lookupValueId);
+                 
+                return finder;
+            }
+            if (lookupId === '11') {
+                finder = linkLookups?.securities?.find(item=> item.id === objectInAddedInfoArray?.lookupValueId);
+
+                return finder;
+            }
+            return finder;
+            
+        } else {
+            return null
         }
     }
 
@@ -327,10 +396,10 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                                 handleInputChange({key: "unionId", value});
                                 handleInputChange({
                                     key: "unionValueId", 
-                                    value: linkLookups?.unions?.find(item => item.id == JSON.stringify(value))?.name
+                                    value: linkLookups?.unions?.find(item => item.id === value)?.name
                                 });
                             }} 
-                            value={data?.unionId} 
+                            value={data?.unionId}
                             className="select-element" 
                             placeholder="Select Union"
                         >
@@ -346,42 +415,36 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                     <h4>Additional Assignment Information</h4>
                     <div className="form-row">
                         <label className="input-group">
-                            Employee Type
+                            Securities
                             <Select 
                                 onChange={(value)=> {
-                                    handleInputChange({key: "employeeTypeId", value});
-                                    handleInputChange({
-                                        key: "employeeTypeValueId", 
-                                        value: linkLookups?.employeeTypes?.find(item => item.id == JSON.stringify(value))?.name
-                                    });
+                                    handleAdditionalInputChange({id: "11", valueId: value});
+                                    
                                 }} 
-                                value={data?.employeeTypeId} 
+                                value={getAdditionalInfoValue('11')?.id} 
                                 className="select-element" 
-                                placeholder="Select Employee Type"
+                                placeholder="Select Security Level" 
                             >
                             {
-                                linkLookups?.employeeTypes?.map((item, i)=> (
+                                linkLookups?.securities?.map((item, i)=> (
                                     <Select.Option className="select-option" key={i} value={item.id}>{item.name}</Select.Option>
                                 ))
                             }
                             </Select>
                         </label>
                         <label className="input-group">
-                            Employee Category
+                            Housing
                             <Select 
                                 onChange={(value)=> {
-                                    handleInputChange({key: "employeeCategoryId", value});
-                                    handleInputChange({
-                                        key: "employeeCategoryValueId", 
-                                        value: linkLookups?.employeeCategories?.find(item => item.id == JSON.stringify(value))?.name
-                                    });
+                                    handleAdditionalInputChange({id: "9", valueId: value});
+                                    
                                 }} 
-                                value={data?.employeeCategoryId} 
+                                value={getAdditionalInfoValue('9')?.id} 
                                 className="select-element" 
-                                placeholder="Select Employee Category"
+                                placeholder="Select Housing Options" 
                             >
                             {
-                                linkLookups?.employeeCategories?.map((item, i)=> (
+                                linkLookups?.housings?.map((item, i)=> (
                                     <Select.Option className="select-option" key={i} value={item.id}>{item.name}</Select.Option>
                                 ))
                             }
@@ -390,21 +453,18 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                     </div>
                     <div className="form-row">
                         <label className="input-group">
-                            Employee Type
+                            Wardrobe
                             <Select 
                                 onChange={(value)=> {
-                                    handleInputChange({key: "employeeTypeId", value});
-                                    handleInputChange({
-                                        key: "employeeTypeValueId", 
-                                        value: linkLookups?.employeeTypes?.find(item => item.id == JSON.stringify(value))?.name
-                                    });
+                                    handleAdditionalInputChange({id: "10", valueId: value});
+                                    
                                 }} 
-                                value={data?.employeeTypeId} 
+                                value={getAdditionalInfoValue('10')?.id} 
                                 className="select-element" 
-                                placeholder="Select Employee Type"
+                                placeholder="Select Wardrobe Type" 
                             >
                             {
-                                linkLookups?.employeeTypes?.map((item, i)=> (
+                                linkLookups?.wardrobes?.map((item, i)=> (
                                     <Select.Option className="select-option" key={i} value={item.id}>{item.name}</Select.Option>
                                 ))
                             }

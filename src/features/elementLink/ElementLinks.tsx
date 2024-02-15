@@ -1,4 +1,4 @@
-import { Breadcrumb, Dropdown, MenuProps, Space, TableColumnsType } from "antd";
+import { Breadcrumb, TableColumnsType } from "antd";
 import CreateButton from "../../components/CreateButton/CreateButton";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import "./ElementLinks.scss";
@@ -6,33 +6,48 @@ import { useEffect, useState } from "react";
 import NoDataDisplay from "../../components/NoDataDisplay/NoDataDisplay";
 import ElementLinkTable from "../../components/Table/Table";
 import { AnyObject } from "antd/es/_util/type";
-import { ArrowLeftOutlined, DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
-import RowActionButton from "../../components/Table/RowActionButton";
+import { ArrowLeftOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import SuccessModal, { SuccessModalProps } from "../../components/Modals/SuccessModal/SuccessModal";
-import ElementForm, { ElementFormStateType } from "../../components/Forms/CreateElement/ElementForm";
+import { ElementFormStateType } from "../../components/Forms/Element/ElementForm";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { CreateElementLinkThunk, DeleteElementLinkThunk, GetElementLinksThunk, UpdateElementLinkThunk, setSelectedElementLink } from "./elementLinkSlice";
 import DeleteConfirmationModal from "../../components/Modals/ConfirmationModal/ConfirmationModal";
 import DetailsGrid from "../../components/DetailsGrid/DetailsGrid";
 import SideDrawer from "../../components/SideDrawer/SideDrawer";
-import ElementLinkForm from "../../components/Forms/CreateElement/ElementLinkForm";
-import { GetGradesThunk, GetElementLookupsThunk, GetSuborganizatonsThunk, GetGradeStepsThunk, GetJobTitlesAndLocations, GetCategoriesAndTypes, GetUnions } from "../../redux/generalSlice";
+import ElementLinkForm from "../../components/Forms/Element/ElementLinkForm";
+import { GetGradesThunk, GetSuborganizatonsThunk, GetJobTitlesAndLocations, GetCategoriesAndTypes, GetUnions } from "../../redux/generalSlice";
+import { setSelectedElement } from "../element/elementSlice";
 
 type ElementRowActions = "view"|"edit"|"delete";
 
 const ElementLinks = () => {
     const dispatch = useAppDispatch();
     const { loading, elementLinks, selectedElementLink } = useAppSelector(state=> state.elementLinks);
+    const { grades, suborganizations, linkLookups } = useAppSelector(state=> state.general);
     const { selectedElement } = useAppSelector(state=> state.elements);
+    const storedElement = JSON.parse(sessionStorage.getItem('selectedElement') as string);
+
+    useEffect(()=> {
+        if (storedElement) {
+            dispatch(setSelectedElement(storedElement));
+        }
+    }, [])
     
     useEffect(()=> {
         readElementLinks();
-        dispatch(GetGradesThunk());
-        dispatch(GetSuborganizatonsThunk());
-        dispatch(GetJobTitlesAndLocations());
-        dispatch(GetCategoriesAndTypes());
-        dispatch(GetUnions());
+        grades?.length < 1 && dispatch(GetGradesThunk());
+        suborganizations?.length < 1 && dispatch(GetSuborganizatonsThunk());
+
+        if (!linkLookups?.jobTitles?.length && !linkLookups?.locations?.length) {
+            dispatch(GetJobTitlesAndLocations());
+        }
+        if (!linkLookups?.employeeCategories?.length && !linkLookups?.employeeTypes?.length) {
+            dispatch(GetCategoriesAndTypes());
+        }
+        if (!linkLookups?.unions?.length) {
+            dispatch(GetUnions());
+        }
     }, []);
 
     const [searchTerm, setSearchTerm] = useState("");
@@ -263,6 +278,32 @@ const ElementLinks = () => {
         
     ]
 
+    const getAdditionalInfoValue= (lookupId:string) =>{
+
+        let objectInAddedInfoArray= selectedElementLink?.additionalInfo?.find(item=> item.lookupId === lookupId);
+
+        linkLookups.unions?.find(item=> item.id === selectedElementLink?.unionId);
+        console.log({ objectInAddedInfoArray })
+        
+        if(objectInAddedInfoArray || Number(lookupId) < 9){
+            let finder;
+            if (lookupId === '9') {
+                finder = linkLookups?.housings?.find(item=> item.id === objectInAddedInfoArray?.lookupValueId);
+                // console.log({finder})
+                return finder;
+            }
+            if (lookupId === '8') {
+                finder = linkLookups.unions?.find(item=> item.id === selectedElementLink?.unionId);
+
+                return finder;
+            }
+
+            return finder;
+            
+        } else {
+            return null
+        }
+    }
     const elementLinkDetails = [
         {
             title: "Name",
@@ -314,11 +355,11 @@ const ElementLinks = () => {
         },
         {
             title: "union",
-            value: selectedElementLink?.unionValueId,
+            value: getAdditionalInfoValue('8')?.name,
         },
         {
             title: "housing",
-            value: selectedElementLink?.additionalInfo?.find(item=> item.lookupId === "9")?.lookupValueId,
+            value: getAdditionalInfoValue("9")?.name,
         },
         {
             title: "Effective start date",
@@ -331,7 +372,7 @@ const ElementLinks = () => {
         
     ]
 
-    
+
     return (
         <div id="element-links-outlet">
             <div className="breadcrumb-container">
