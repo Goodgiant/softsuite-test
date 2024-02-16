@@ -36,7 +36,7 @@ $page-padding: 0px 40px;
 .page-container {
     max-height: 100%;
     padding: $page-padding;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .borderless-outlineless {

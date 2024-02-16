@@ -115,7 +115,7 @@ $blue-border: 2px solid blue;
             height: 100%;
             width: $sidebar-width;
             padding: 0 10px;
-            overflow: auto;
+            overflow: hidden;
 
             .ant-menu-submenu-title {
                 width: 270px;
