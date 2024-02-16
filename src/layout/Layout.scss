@@ -214,6 +214,10 @@ $blue-border: 2px solid blue;
         display: flex;
         justify-content: space-between;
         padding: 0 20px;
+        
+        p {
+            color: #fff;
+        }
     }
 
 }
