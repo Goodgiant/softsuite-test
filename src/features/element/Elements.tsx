@@ -205,7 +205,7 @@ const Elements = () => {
         },
     ];
 
-    
+    const myCreatedData = elements.filter(element=> element.modifiedBy == myFullName && element.name?.toLowerCase().includes(searchTerm.toLowerCase()));
     return (
         <div id="elements-outlet">
             <div className="breadcrumb-container">
@@ -226,9 +226,9 @@ const Elements = () => {
                     <NoDataDisplay message="There are no elements to display" />
                     : 
                     <ElementTable 
-                        data={elements.filter(element=> element.modifiedBy == myFullName && element.name?.toLowerCase().includes(searchTerm.toLowerCase()))} 
+                        data={myCreatedData} 
                         columns={columns}
-                        dataSize={elements.length}
+                        dataSize={myCreatedData.length}
                     />
                 }
                 </section>
