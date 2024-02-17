@@ -488,11 +488,7 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                         <Select 
                             onChange={(value)=> {
                                 handleInputChange({key: "amountType", value});
-                                // handleInputChange({
-                                //     key: "amountTypeId", 
-                                //     value: grades?.find(item => item.id === value)?.name
-                                // });
-                            } } 
+                            }}
                             value={data?.amountType} 
                             defaultValue={data?.amountType} 
                             className="select-element" 
@@ -506,7 +502,7 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                         </Select>
                     </label>
                     {data?.amountType === "Fixed Value" && 
-                    <label className="input-group" hidden={data?.suborganizationId? false : true}>
+                    <label className="input-group">
                         Amount
                         <Input
                             type="decimal" 
@@ -515,12 +511,12 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                                 handleInputChange({key: "amount", value: value});
                             } }
                             value={data?.amount} 
-                            className="select-element" 
+                            className="input-element" 
                             placeholder="Enter Amount" 
                         />
                     </label>}
                     {data?.amountType === "Rate Of Salary" && 
-                    <label className="input-group" hidden={data?.suborganizationId? false : true}>
+                    <label className="input-group">
                         Rate
                         <Input
                             type="decimal"
@@ -529,7 +525,7 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                                 handleInputChange({key: "rate", value: value});
                             } }
                             value={data?.rate} 
-                            className="select-element" 
+                            className="input-element" 
                             placeholder="Enter Rate" 
                         />
                     </label>}

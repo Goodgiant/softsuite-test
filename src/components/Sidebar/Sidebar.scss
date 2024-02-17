@@ -9,26 +9,54 @@
     height: 57px;
     padding: 0 14px;
     background-color: #fff;
+    color: $blue-color;
 
-    div {
+    @media(max-width: $breakpoint-small-desktop) {
+        @include scaleDownBy20(min-width, 244);
+        @include scaleDownBy20(height, 57);
+        @include scaleDownBy20(padding-left, 14);
+        @include scaleDownBy20(padding-right, 14);
+    }
+
+    .group-icon-text {
         display: flex;
-        flex-direction: column;
-        max-height: 100%;
+        gap: 10px;
 
+        img {
 
-        p {
-            font-size: 12px;
-            color: $blue-color;
-            font-weight: 400;
-            padding: 0 !important;
-            margin: 0 !important;
+            @media(max-width: $breakpoint-small-desktop) {
+                scale: 80%;
+            }
         }
-        h4 {
-            font-size: 16px;
-            color: $blue-color;
-            font-weight: 700;
-            padding: 0 !important;
-            margin: 0 !important;
+
+        div {
+            display: flex;
+            flex-direction: column;
+            max-height: 100%;
+
+
+            p {
+                font-size: 12px;
+                color: $blue-color;
+                font-weight: 400;
+                padding: 0 !important;
+                margin: 0 !important;
+
+                @media(max-width: $breakpoint-small-desktop) {
+                    @include scaleDownBy20(font-size, 12);
+                }
+            }
+            h4 {
+                font-size: 16px;
+                color: $blue-color;
+                font-weight: 700;
+                padding: 0 !important;
+                margin: 0 !important;
+
+                @media(max-width: $breakpoint-small-desktop) {
+                    @include scaleDownBy20(font-size, 16);
+                }
+            }
         }
     }
 
@@ -40,4 +68,8 @@
 
     background-color: #F6F7F9;
     max-width: 244px;
+
+    @media(max-width: $breakpoint-small-desktop) {
+        @include scaleDownBy20(max-width, 244);
+    }
 }

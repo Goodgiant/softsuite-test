@@ -18,4 +18,9 @@
     &:hover {
         background-color: lighten($blue-color, 5%);
     }
+
+    @media(max-width: $breakpoint-small-desktop) {
+        @include scaleDownBy20(width, 40);
+        @include scaleDownBy20(height, 40);
+    }
 }

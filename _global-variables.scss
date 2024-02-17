@@ -8,6 +8,34 @@ $green-border: $green-color solid 2px;
 $blue-border: $blue-color solid 2px;
 $gray-border: #E5E5E5 solid 1px;
 $page-padding: 0px 40px;
+$base_font_size: 16;
+
+//Media queries
+
+$breakpoint-tablet: 768px;
+$breakpoint-small-desktop: 1024px;
+$breakpoint-large-desktop: 1400px;
+
+
+@function strip-unit($number) {
+    @if type-of($number) == 'number' and not unitless($number) {
+      @return $number / ($number * 0 + 1);
+    }
+  
+    @return $number;
+}
+
+@function get80PercentOf($value) {
+    @return $value * 80 / 100;
+}
+
+@function get80PercentRawOf($value) {
+    @return strip-unit($value) * 80 / 100;
+}
+
+@mixin scaleDownBy20($key,$px) {
+    #{$key}: #{get80PercentRawOf($px)}px !important;
+}
 
 .roboto-thin {
     font-family: "Roboto", sans-serif;

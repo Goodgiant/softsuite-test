@@ -9,11 +9,19 @@
         background-color: $blue-color;
         color: #fff;
     }
+
+    @media(max-width: $breakpoint-small-desktop) {
+        @include scaleDownBy20(font-size, 16);
+    }
 }
 
 .ant-table-cell, .ant-table-cell.ant-table-column-has-sorters {
     &::before {
         display: none;
+    }
+
+    @media(max-width: $breakpoint-small-desktop) {
+        @include scaleDownBy20(font-size, 16);
     }
 }
 
@@ -33,6 +41,12 @@ ul.ant-pagination.ant-table-pagination.ant-table-pagination-right {
         padding: 0 15px;
         min-width: max-content;
 
+        @media(max-width: $breakpoint-small-desktop) {
+            @include scaleDownBy20(padding-right, 15);
+            @include scaleDownBy20(padding-left, 15);
+            @include scaleDownBy20(font-size, 16);
+        }
+
         .pagesize-container {
             width: 257px;
             height: 40px;
@@ -40,9 +54,19 @@ ul.ant-pagination.ant-table-pagination.ant-table-pagination-right {
             justify-content: space-between;
             align-items: center;
 
+            @media(max-width: $breakpoint-small-desktop) {
+                @include scaleDownBy20(width, 257);
+                @include scaleDownBy20(height, 40);
+                @include scaleDownBy20(font-size, 16);
+            }
+
             span {
                 color: $blue-color;
                 font-weight: 700;
+
+                @media(max-width: $breakpoint-small-desktop) {
+                    @include scaleDownBy20(font-size, 16);
+                }
             }
 
             .pagesize-dropdown {
@@ -57,11 +81,23 @@ ul.ant-pagination.ant-table-pagination.ant-table-pagination-right {
                 color: $blue-color;
                 font-size: 14px;
 
+                @media(max-width: $breakpoint-small-desktop) {
+                    @include scaleDownBy20(margin-right, 15);
+                    @include scaleDownBy20(margin-left, 15);
+                    @include scaleDownBy20(font-size, 14);
+                    @include scaleDownBy20(min-width, 81);
+                }
+
                 .pagesize-value {
                     width: 100%;
                     display: flex;
                     justify-content: space-between;
                     padding: 0 10px;
+                    
+                    @media(max-width: $breakpoint-small-desktop) {
+                        @include scaleDownBy20(padding-right, 10);
+                        @include scaleDownBy20(padding-left, 10);
+                    }
                 }
             }
         }
@@ -77,6 +113,12 @@ ul.ant-pagination.ant-table-pagination.ant-table-pagination-right {
         box-sizing: border-box;
 
         @extend .borderless-outlineless;
+
+        @media(max-width: $breakpoint-small-desktop) {
+            @include scaleDownBy20(height, 40);
+            @include scaleDownBy20(width, 40);
+            @include scaleDownBy20(font-size, 16);
+        }
     }
 
     .ant-pagination-prev, .ant-pagination-next {
@@ -139,6 +181,12 @@ ul.ant-pagination.ant-table-pagination.ant-table-pagination-right {
     gap: 5px;
     align-items: center;
     justify-content: space-evenly;
+
+    @media(max-width: $breakpoint-small-desktop) {
+        @include scaleDownBy20(height, 25);
+        @include scaleDownBy20(width, 25);
+        @include scaleDownBy20(font-size, 16);
+    }
 }
 
 a.elements-link-action-link {
@@ -148,6 +196,10 @@ a.elements-link-action-link {
 
     &:focus, &:active, &:hover {
         color: darken($green-color, 10%);
+    }
+
+    @media(max-width: $breakpoint-small-desktop) {
+        @include scaleDownBy20(font-size, 14);
     }
 }
 

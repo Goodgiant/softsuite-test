@@ -22,4 +22,10 @@
     .button-text {
         margin-right: 15px;
     }
+
+    @media(max-width: $breakpoint-small-desktop) {
+        @include scaleDownBy20(font-size, 16);
+        @include scaleDownBy20(height, 40);
+        @include scaleDownBy20(min-width, 178);
+    }
 }

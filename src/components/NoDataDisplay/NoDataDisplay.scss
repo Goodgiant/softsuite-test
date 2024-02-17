@@ -7,15 +7,28 @@
     align-items: center;
     min-height: 300px;
 
+    @media(max-width: $breakpoint-small-desktop) {
+        @include scaleDownBy20(min-height, 300);
+    }
+
     .no-data-message {
         display: flex;
         align-items: center;
 
         img {
             margin-right: 10px;
+
+            @media(max-width: $breakpoint-small-desktop) {
+                @include scaleDownBy20(margin-right, 10);
+            }
         }
         p {
             color: $blue-color;
+            font-size: 16px;
+
+            @media(max-width: $breakpoint-small-desktop) {
+                @include scaleDownBy20(font-size, 16);
+            }
         }
     }
 }

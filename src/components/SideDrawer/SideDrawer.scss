@@ -19,6 +19,10 @@
                     flex-direction: column;
                     justify-content: space-between;
                     height: 100px;
+
+                    @media(max-width: $breakpoint-small-desktop) {
+                        @include scaleDownBy20(height, 100);
+                    }
                 
                     button {
                         background-color: transparent;
@@ -38,6 +42,11 @@
                             font-size: 10px;
                             font-weight: bold;
                         }
+
+                        @media(max-width: $breakpoint-small-desktop) {
+                            @include scaleDownBy20(width, 24);
+                            @include scaleDownBy20(height, 24);
+                        }
                     }
                 
                     p {
@@ -47,7 +56,13 @@
                         color: $blue-color;
                         text-transform: uppercase;
                         margin: 0;
+
+                        @media(max-width: $breakpoint-small-desktop) {
+                            @include scaleDownBy20(font-size, 24);
+                            @include scaleDownBy20(line-height, 30);
+                        }
                     }
+
                 }
             }
         }

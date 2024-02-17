@@ -22,12 +22,20 @@
         box-sizing: border-box;
         overflow: auto;
 
+        @media(max-width: $breakpoint-small-desktop) {
+            @include scaleDownBy20(height, 58);
+        }
+
         h4 {
             color: lighten(#7E7E7E, 10%);
             font-weight: 500;
             font-size: 11px;
             text-transform: uppercase;
             margin-bottom: 0;
+            
+            @media(max-width: $breakpoint-small-desktop) {
+                @include scaleDownBy20(font-size, 11);
+            }
         }
         span {
             display: flex;
@@ -39,6 +47,10 @@
             text-transform: capitalize;
             word-break: break-all;
             margin: 0;
+
+            @media(max-width: $breakpoint-small-desktop) {
+                @include scaleDownBy20(font-size, 14);
+            }
         }
     }
 }

@@ -5,6 +5,12 @@
     height: 40px;
     display: flex;
 
+    @media(max-width: $breakpoint-small-desktop) {
+        @include scaleDownBy20(width, 280);
+        @include scaleDownBy20(height, 40);
+        @include scaleDownBy20(font-size, 16);
+    }
+
     .search-input {
         background-color: #fff;
         color: #1A3E56;
@@ -43,4 +49,10 @@
 
     min-width: 300px;
     height: 57px;
+
+    @media(max-width: $breakpoint-small-desktop) {
+        @include scaleDownBy20(min-width, 300);
+        @include scaleDownBy20(height, 57);
+        @include scaleDownBy20(font-size, 16);
+    }
 }

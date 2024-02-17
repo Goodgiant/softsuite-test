@@ -2,7 +2,7 @@
 
 $header-height: 90px;
 $footer-height: 58px;
-$sidebar-width: 300px;
+$sidebar-width: 302px;
 $main-width: calc(100vw - $sidebar-width);
 $red-border: 2px solid red;
 $blue-border: 2px solid blue;
@@ -23,8 +23,22 @@ $blue-border: 2px solid blue;
         background-color: #fff;
         padding: 20px;
 
+        @media(max-width: $breakpoint-small-desktop) {
+            @include scaleDownBy20(padding, 20);
+        }
+
         div.logo-div {
             width: $sidebar-width;
+
+            @media(max-width: $breakpoint-small-desktop) {
+                @include scaleDownBy20(width, $sidebar-width);
+            }
+
+            img {
+                @media(max-width: $breakpoint-small-desktop) {
+                    scale: 80%;
+                }
+            }
         }
 
         section {
@@ -47,9 +61,19 @@ $blue-border: 2px solid blue;
                     align-items: center;
                     width: 310px;
 
+                    @media(max-width: $breakpoint-small-desktop) {
+                        @include scaleDownBy20(width, 310);
+                    }
+
                     .notif-icon {
                         height: 40px;
                         width: 40px;
+                        margin: 0 10px;
+
+                        @media(max-width: $breakpoint-small-desktop) {
+                            @include scaleDownBy20(height, 40);
+                            @include scaleDownBy20(width, 40);
+                        }
                     }
 
                     .profile-info {
@@ -62,15 +86,29 @@ $blue-border: 2px solid blue;
                         .profile-photo-container {
                             height: 48px;
                             width: 48px;
+                            min-width: 48px;
+                            min-height: 48px;
                             background-color: $gray-color;
                             border-radius: 50px;
                             overflow: hidden;
                             display: flex;
                             justify-content: center;
 
+                            @media(max-width: $breakpoint-small-desktop) {
+                                @include scaleDownBy20(height, 48);
+                                @include scaleDownBy20(width, 48);
+                                @include scaleDownBy20(min-height, 48);
+                                @include scaleDownBy20(min-width, 48);
+                            }
+
                             img {
                                 max-width: 48px;
                                 max-height: 48px;
+
+                                @media(max-width: $breakpoint-small-desktop) {
+                                    @include scaleDownBy20(min-height, 48);
+                                    @include scaleDownBy20(min-width, 48);
+                                }
                             }
 
                             
@@ -80,18 +118,29 @@ $blue-border: 2px solid blue;
                             padding: 14px;
                             min-width: fit-content;
 
+                            @media(max-width: $breakpoint-small-desktop) {
+                                @include scaleDownBy20(padding, 14);
+                            }
+
                             h4 {
                                 color: $blue-color;
                                 font-weight: 600;
                                 padding: 0px !important;
                                 margin: 0px !important;
-                                // min-width
+                                
+                                @media(max-width: $breakpoint-small-desktop) {
+                                    @include scaleDownBy20(font-size, 16);
+                                }
                             }
                             p {
                                 color: #818DA9;
                                 font-weight: 400;
                                 padding: 0px !important;
                                 margin: 0px !important;
+
+                                @media(max-width: $breakpoint-small-desktop) {
+                                    @include scaleDownBy20(font-size, 16);
+                                }
                             }
                         }
                     }
@@ -117,8 +166,12 @@ $blue-border: 2px solid blue;
             padding: 0 10px;
             overflow: hidden;
 
+            @media(max-width: $breakpoint-small-desktop) {
+                @include scaleDownBy20(width, $sidebar-width);
+            }
+
             .ant-menu-submenu-title {
-                width: 270px;
+                width: calc($sidebar-width - 30px);
                 height: 40px;
                 background-color: transparent;
 
@@ -129,14 +182,19 @@ $blue-border: 2px solid blue;
             }
 
             .ant-menu-submenu {
-                margin-bottom: 24px;
+                margin-bottom: 20px;
                 span {
                     color: $gray-text;
+
+                    @media(max-width: $breakpoint-small-desktop) {
+                        @include scaleDownBy20(font-size, 16);
+                    }
                 }
             }
             .ant-menu-submenu-open {
                 // @extend .ant-menu-submenu-title;
                 background-color: $green-color;
+                
                 span {
                     color: #fff !important;
                 }
@@ -195,12 +253,16 @@ $blue-border: 2px solid blue;
         .right {
             background-color: transparent;
             position: absolute;
-            box-sizing: border-box;
-            margin-left: $sidebar-width;
+            left: $sidebar-width;
             height: 100%;
             width: $main-width;
             flex: 1;
             border-top: 2px solid #e6e6e6;
+
+            @media(max-width: $breakpoint-small-desktop) {
+                width: calc(100vw - get80PercentOf($sidebar-width));
+                @include scaleDownBy20(left, 302);
+            }
         }
     }
 
@@ -213,10 +275,21 @@ $blue-border: 2px solid blue;
         box-sizing: border-box;
         display: flex;
         justify-content: space-between;
+        align-items: center;
         padding: 0 20px;
+
+        @media(max-width: $breakpoint-small-desktop) {
+            @include scaleDownBy20(padding-left, 20);
+            @include scaleDownBy20(padding-right, 20);
+            @include scaleDownBy20(height, $footer-height);
+        }
         
         p {
             color: #fff;
+
+            @media(max-width: $breakpoint-small-desktop) {
+                @include scaleDownBy20(font-size, 16);
+            }
         }
     }
 

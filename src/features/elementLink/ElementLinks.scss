@@ -6,9 +6,18 @@
     .breadcrumb-container {
         padding: 14px 0;
 
+        @media(max-width: $breakpoint-small-desktop) {
+            @include scaleDownBy20(padding-top, 14);
+            @include scaleDownBy20(padding-bottom, 14);
+        }
+
         .breadcrumbs {
             font-weight: 700;
             color: #ABB3C5;
+
+            @media(max-width: $breakpoint-small-desktop) {
+                @include scaleDownBy20(font-size, 16);
+            }
         }
         .activeCrumb {
             color: $blue-color;
@@ -22,10 +31,14 @@
         box-sizing: border-box;
         overflow: auto;
 
+        @media(max-width: $breakpoint-small-desktop) {
+            @include scaleDownBy20(padding, 20);
+        }
+
         button.back-button {
             background-color: transparent;
             color: $green-color;
-            border: $green-color solid 2px;
+            border: $green-color solid 1.5px;
             width: 24px;
             height: 24px;
             box-sizing: border-box;
@@ -33,6 +46,12 @@
             justify-content: center;
             align-items: center;
             font-size: 10px;
+
+            @media(max-width: $breakpoint-small-desktop) {
+                @include scaleDownBy20(height, 24);
+                @include scaleDownBy20(width, 24);
+                @include scaleDownBy20(font-size, 10);
+            }
 
             &:focus, &:active, &:hover {
                 @extend .back-button;
@@ -46,15 +65,28 @@
         .title {
             color: $blue-color;
             font-size: 19px;
+
+            @media(max-width: $breakpoint-small-desktop) {
+                @include scaleDownBy20(font-size, 19);
+            }
         }
         section.details {
             margin-bottom: 100px;
+
+            @media(max-width: $breakpoint-small-desktop) {
+                @include scaleDownBy20(margin-bottom, 100);
+            }
         }
         section.actions {
             @extend .actions-section-container;
         }
         .data-section {
             padding: 24px 0;
+
+            @media(max-width: $breakpoint-small-desktop) {
+                @include scaleDownBy20(padding-top, 24);
+                @include scaleDownBy20(padding-bottom, 24);
+            }
         }
     }
     
