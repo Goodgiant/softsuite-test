@@ -12,7 +12,6 @@
     .grid-row-cell {
         border: 1px solid darken($gray-color, 10%);
         width: 50%;
-        min-width: min-content;
         height: 58px;
         padding-left: 16px;
         display: flex;
@@ -39,13 +38,15 @@
         }
         span {
             display: flex;
+            max-width: 98%;
+            overflow: auto;
+            box-sizing: border-box;
         }
         p {
             color: $blue-color;
             font-weight: 500;
             font-size: 14px;
             text-transform: capitalize;
-            word-break: break-all;
             margin: 0;
 
             @media(max-width: $breakpoint-small-desktop) {

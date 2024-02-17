@@ -128,10 +128,18 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
         const realValue = value?.target? 
             value.target.value : value;
 
-        setData((prev)=> ({
-            ...prev,
-            [key]: realValue,
-        }));
+        if (key === 'payFrequency' && realValue === "monthly") {
+            setData((prev)=> ({
+                ...prev,
+                [key]: realValue,
+                selectedMonths: [],
+            }));
+        } else {
+            setData((prev)=> ({
+                ...prev,
+                [key]: realValue,
+            }));
+        }
     };
 
     const handleCancel = () => {
@@ -330,7 +338,7 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
                             allowClear
                             mode="multiple"
                             onChange={(value)=> handleInputChange({key: "selectedMonths", value})}
-                            className="select-element"
+                            className="select-element-items"
                             disabled={data?.payFrequency === "monthly"}
                             options={months.map(value=> ({ value, key: value })) }
                         />

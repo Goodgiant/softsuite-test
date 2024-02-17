@@ -450,21 +450,52 @@ $gray-line: #CDCDCD;
                         }
                     }
 
-                    .ant-select-selection-overflow-item {
-                        min-height: 33px !important;
-                        min-width: 61px !important;
-
-                        @media(max-width: $breakpoint-small-desktop) {
-                            // @include scaleDownBy20(min-height, 33);
-                            @include scaleDownBy20(min-width, 61);
+                    .select-element-items {
+                        border: $gray-border;
+                        border-radius: 4px;
+                        min-height: 56px;
+                        &:hover, &:focus {
+                            border: lightgreen 0.5px solid;
                         }
 
-                        .ant-select-selection-item {
-                            height: 100%;
-                            padding: 8px;
+                        @media(max-width: $breakpoint-small-desktop) {
+                            @include scaleDownBy20(min-height, 56);
+                        }
+        
+                        .ant-select-selector {
+                            font-size: 16px;
+                            color: $blue-color;
+                            border: none;
+                            
+                            .ant-select-selection-placeholder {
+                                color: $gray-text;
+        
+                                &::after {
+                                    color: $blue-color  !important;
+                                }
+                            }
 
-                            .ant-select-selection-item-content {
-                                font-size: 14px;
+                            @media(max-width: $breakpoint-small-desktop) {
+                                @include scaleDownBy20(font-size, 16);
+                            }
+                        }
+
+                        .ant-select-selection-overflow-item {
+                            min-height: 33px !important;
+                            min-width: 61px !important;
+
+                            @media(max-width: $breakpoint-small-desktop) {
+                                // @include scaleDownBy20(min-height, 33);
+                                @include scaleDownBy20(min-width, 61);
+                            }
+
+                            .ant-select-selection-item {
+                                height: 100%;
+                                padding: 8px;
+
+                                .ant-select-selection-item-content {
+                                    font-size: 14px;
+                                }
                             }
                         }
                     }
