@@ -61,33 +61,28 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
     const { selectedElementLink, loading } = useAppSelector(state=> state.elementLinks);
     const { linkLookups, suborganizations, departments, grades, gradeSteps } = useAppSelector(state=> state.general);
     
+    const defaultInitialState = {
+        status: "active",
+        automate: "yes",
+        amountType: "Fixed Value",
+        additionalInfo: [],
+    };
+
     useEffect(()=> {
         setStep(1);
         if (props.editMode && selectedElementLink) {
             setData(selectedElementLink);
             selectedElementLink?.suborganizationId && dispatch(GetDepartmentsThunk(selectedElementLink?.suborganizationId));
             setTimeout(()=> {
-
                 selectedElementLink?.grade && dispatch(GetGradeStepsThunk(selectedElementLink?.grade));
-        
             }, 700)
         } else {
-            setData({
-                status: "active",
-                automate: "yes",
-                amountType: "Fixed Value",
-                additionalInfo: [],
-            })
+            setData(defaultInitialState)
         }
     }, [selectedElementLink])
 
 
-    const [data, setData] = useState<ElementLinkFormStateType | null>(props.editMode? selectedElementLink : {
-        status: "active",
-        automate: "yes",
-        amountType: "Fixed Value",
-        additionalInfo: [],
-    });
+    const [data, setData] = useState<ElementLinkFormStateType | null>(props.editMode? selectedElementLink : defaultInitialState);
 
     
     const [step, setStep] = useState(1);
@@ -154,6 +149,7 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
 
     const handleCancel = () => {
         if (step === 1) {
+            setData(defaultInitialState);
             props.cancelShow();
         } else {
             setStep(prev=> prev-1);
@@ -533,11 +529,11 @@ const ElementLinkForm = (props: { showForm: boolean, cancelShow: ()=>void, handl
                 <div className="form-row">
                     <label className="input-group">
                         Effective Start Date
-                        <DatePicker defaultValue={dayjs(data?.effectiveStartDate)} onChange={(_, value)=> handleInputChange({key: "effectiveStartDate", value })} className="input-element" placeholder="Select Date" />
+                        <DatePicker defaultValue={data?.effectiveStartDate && dayjs(data?.effectiveStartDate)} onChange={(_, value)=> handleInputChange({key: "effectiveStartDate", value })} className="input-element" placeholder="Select Date" />
                     </label>
                     <label className="input-group">
                         Effective End Date
-                        <DatePicker defaultValue={dayjs(data?.effectiveEndDate)} onChange={(_, value)=> handleInputChange({key: "effectiveEndDate", value })} className="input-element" placeholder="Select Date" />
+                        <DatePicker minDate={dayjs(data?.effectiveStartDate)} defaultValue={data?.effectiveEndDate && dayjs(data?.effectiveEndDate)} onChange={(_, value)=> handleInputChange({key: "effectiveEndDate", value })} className="input-element" placeholder="Select Date" />
                     </label>
                 </div>
                 <div className="form-row">

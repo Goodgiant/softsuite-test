@@ -1,5 +1,4 @@
 import "./Sidebar.scss";
-import switcherIcon from "../../assets/table_switch-icon.svg";
 import { DownOutlined } from "@ant-design/icons";
 
 export const ModuleSwitcher = (props: { title:string, value: string, icon: any, alt?: boolean}) => {

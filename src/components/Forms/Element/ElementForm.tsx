@@ -84,23 +84,45 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
     useEffect(()=> {
         dispatch(GetElementLookupsThunk());
     }, [])
-    useEffect(()=> {
-        setStep(1);
-        setData(selectedElement);
-    }, [selectedElement])
 
-
-    const [data, setData] = useState<ElementFormStateType | null>(props.editMode? selectedElement : {
+    const defaultInitialState: ElementFormStateType = {
         status: "active",
         prorate: "yes",
         processingType: "open",
         payFrequency: "monthly",
         selectedMonths: [],
-    });
+    };
 
+    useEffect(()=> {
+        setStep(1);
+        if (props.editMode && selectedElement) {
+            setData(selectedElement);
+        } else {
+            setData(defaultInitialState)
+        }
+    }, [selectedElement])
+
+
+    const [data, setData] = useState<ElementFormStateType | null>(props.editMode? selectedElement : defaultInitialState);
     const [step, setStep] = useState(1);
-    const isNextable = data?.name && data?.description && data?.categoryId && data?.classificationId && data?.reportingName && data?.payRunId;
-    const isSubmitable = isNextable && data?.effectiveStartDate && data?.effectiveEndDate && data?.processingType && data?.payFrequency && data?.selectedMonths && data?.prorate && data?.prorate;
+    
+    // conditions to be checked before progressing or submitting
+    const isNextable = 
+        data?.name 
+        && data?.description 
+        && data?.categoryId 
+        && data?.classificationId 
+        && data?.reportingName 
+        && data?.payRunId;
+    const isSubmitable = 
+        isNextable 
+        && data?.effectiveStartDate 
+        && data?.effectiveEndDate 
+        && data?.processingType 
+        && data?.payFrequency 
+        && ((data?.payFrequency !== "monthly" && data?.selectedMonths?.length) 
+            || data?.payFrequency === "monthly") 
+        && data?.prorate;
 
     const handleInputChange = ({value, key}:{key: string, value: any }): void => {
         const realValue = value?.target? 
@@ -114,6 +136,7 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
 
     const handleCancel = () => {
         if (step === 1) {
+            setData(defaultInitialState);
             props.cancelShow();
         } else {
             setStep(prev=> prev-1);
@@ -130,6 +153,7 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
         }
     }
 
+    // Function to display only categories under selected classification
     const filterCategories =()=> {
         let selectedClass = elementLookups?.elementClassifications?.find(item=> item.id == data?.classificationId );
         let isEarningClass = (item:any):boolean=> {
@@ -176,6 +200,9 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
         }
     }
 
+
+
+    // Render function for each form step
     const getElementFormRowsByStep = (step: number) => {
         switch (step) {
             case 1: return (
@@ -268,11 +295,11 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
                 <div className="form-row">
                     <label className="input-group">
                         Effective Start Date
-                        <DatePicker defaultValue={dayjs(data?.effectiveStartDate)} onChange={(_, value)=> handleInputChange({key: "effectiveStartDate", value })} className="input-element" placeholder="Select Date" />
+                        <DatePicker defaultValue={data?.effectiveStartDate && dayjs(data?.effectiveStartDate)} onChange={(_, value)=> handleInputChange({key: "effectiveStartDate", value })} className="input-element" placeholder="Select Date" />
                     </label>
                     <label className="input-group">
                         Effective End Date
-                        <DatePicker defaultValue={dayjs(data?.effectiveEndDate)} onChange={(_, value)=> handleInputChange({key: "effectiveEndDate", value })} className="input-element" placeholder="Select Date" />
+                        <DatePicker minDate={dayjs(data?.effectiveStartDate)} defaultValue={data?.effectiveEndDate && dayjs(data?.effectiveEndDate)} onChange={(_, value)=> handleInputChange({key: "effectiveEndDate", value })} className="input-element" placeholder="Select Date" />
                     </label>
                 </div>
                 <div className="form-row">
@@ -304,6 +331,7 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
                             mode="multiple"
                             onChange={(value)=> handleInputChange({key: "selectedMonths", value})}
                             className="select-element"
+                            disabled={data?.payFrequency === "monthly"}
                             options={months.map(value=> ({ value, key: value })) }
                         />
                     </label>

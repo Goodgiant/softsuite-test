@@ -3,7 +3,7 @@ $gray-line: #CDCDCD;
 
 .ant-modal {
     width: fit-content !important;
-    max-height: 90vh;
+    max-height: 95vh;
     overflow: auto;
 
     .ant-modal-content {
@@ -298,6 +298,10 @@ $gray-line: #CDCDCD;
                             height: 56px;
                             font-size: 16px;
 
+                            &:hover, &:focus {
+                                border: lightgreen 0.5px solid;
+                            }
+
                             @media(max-width: $breakpoint-small-desktop) {
                                 @include scaleDownBy20(height, 56);
                                 @include scaleDownBy20(font-size, 16);
@@ -309,7 +313,7 @@ $gray-line: #CDCDCD;
                             border: $gray-border;
                             border-radius: 4px;
                             height: 56px;
-                            &:hover {
+                            &:hover, &:focus {
                                 border: lightgreen 0.5px solid;
                             }
 
@@ -435,6 +439,9 @@ $gray-line: #CDCDCD;
                             &::placeholder {
                                 color: $gray-text;
                             }
+                            &:hover, &:focus {
+                                border: lightgreen 0.5px solid;
+                            }
 
                             @media(max-width: $breakpoint-small-desktop) {
                                 @include scaleDownBy20(font-size, 16);
@@ -448,7 +455,7 @@ $gray-line: #CDCDCD;
                         min-width: 61px !important;
 
                         @media(max-width: $breakpoint-small-desktop) {
-                            @include scaleDownBy20(min-height, 33);
+                            // @include scaleDownBy20(min-height, 33);
                             @include scaleDownBy20(min-width, 61);
                         }
 

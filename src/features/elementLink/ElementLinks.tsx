@@ -371,6 +371,7 @@ const ElementLinks = () => {
         
     ]
 
+    const myCreatedData = elementLinks?.filter(link=> link.modifiedBy === myFullName && link.name?.includes(searchTerm));
 
     return (
         <div id="element-links-outlet">
@@ -402,9 +403,9 @@ const ElementLinks = () => {
                     <NoDataDisplay message="There are no element links to display" />
                     : 
                     <ElementLinkTable 
-                        data={elementLinks?.filter(link=> link.modifiedBy === myFullName && link.name?.includes(searchTerm))} 
+                        data={myCreatedData} 
                         columns={columns}
-                        dataSize={elementLinks.length}
+                        dataSize={myCreatedData.length}
                     />
                 }
                 </section>
