@@ -163,7 +163,7 @@ const Elements = () => {
           title: 'Status',
           dataIndex: 'status',
           sorter: {
-            compare: (a, b) => a.status.localeCompare(b.status),
+            compare: (a, b) => a.status?.props?.children.localeCompare(b.status?.props?.children),
             multiple: 1,
           },
         },

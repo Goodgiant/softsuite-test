@@ -386,7 +386,7 @@ const ElementForm = (props: { showForm: boolean, cancelShow: ()=>void, handleSub
             confirmLoading={loading}
             onOk={handleConfirm}
             cancelText={step===1? "Cancel" : "Back"}
-            okText={step!==totalSteps? "Next" : `${props.editMode? "Update" : "Create"} New Element`}
+            okText={step!==totalSteps? "Next" : `${props.editMode? "Update" : "Create New"} Element`}
         >
             <div className="form-modal-content-wrapper">
 

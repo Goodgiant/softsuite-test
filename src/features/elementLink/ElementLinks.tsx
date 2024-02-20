@@ -170,7 +170,7 @@ const ElementLinks = () => {
             title: 'Sub-Organization',
             dataIndex: 'suborganizationValueId',
             sorter: {
-            compare: (a, b) => a.categoryValueId.localeCompare(b.categoryValueId),
+            compare: (a, b) => a.suborganizationValueId?.localeCompare(b.suborganizationValueId),
             multiple: 3,
             },
         },
@@ -371,7 +371,7 @@ const ElementLinks = () => {
         
     ]
 
-    const myCreatedData = elementLinks?.filter(link=> link.modifiedBy === myFullName && link.name?.includes(searchTerm));
+    const myCreatedData = elementLinks?.filter(link=> link.modifiedBy === myFullName && link.name?.toLocaleLowerCase().includes(searchTerm?.toLowerCase()));
 
     return (
         <div id="element-links-outlet">
